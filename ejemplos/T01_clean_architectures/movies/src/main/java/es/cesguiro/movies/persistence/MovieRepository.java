@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MovieRepository {
     List<Movie> getAll();
+
+    Movie find(String id);
 }

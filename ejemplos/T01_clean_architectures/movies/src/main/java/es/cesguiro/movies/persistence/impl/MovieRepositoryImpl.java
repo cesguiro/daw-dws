@@ -4,6 +4,7 @@ import es.cesguiro.movies.business.entity.Movie;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.db.exception.DBConnectionException;
 import es.cesguiro.movies.persistence.MovieRepository;
+import es.cesguiro.movies.persistence.exception.ResourceNotFoundException;
 import es.cesguiro.movies.persistence.exception.SQLStatmentException;
 
 import java.sql.Connection;
@@ -34,6 +35,30 @@ public class MovieRepositoryImpl implements MovieRepository {
             DBUtil.close(connection);
             return movies;
         } catch (DBConnectionException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw new SQLStatmentException("SQL: " + SQL);
+        }
+    }
+
+    @Override
+    public Movie find(String id) {
+        final String SQL = "SELECT * FROM movies WHERE imdb_id = ? LIMIT 1";
+        try {
+            Connection connection = DBUtil.open();
+            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
+            DBUtil.close(connection);
+            if(resultSet.next()) {
+                return new Movie(
+                        resultSet.getString("id"),
+                        resultSet.getString("title"),
+                        resultSet.getInt("year"),
+                        resultSet.getInt("runtime")
+                );
+            } else {
+                throw new ResourceNotFoundException("Id movie: " + id);
+            }
+        }catch (DBConnectionException e) {
             throw e;
         } catch (SQLException e) {
             throw new SQLStatmentException("SQL: " + SQL);

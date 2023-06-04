@@ -24,9 +24,7 @@ public class DBUtil {
             );
             return connection;
         } catch (SQLException e) {
-            //String url = "jdbc:" + DRIVER + "://" + HOST + ":" + PORT + "/" + DATABASE;
-            System.out.println(e.getMessage());
-            throw new DBConnectionException("Connection paramaters :\n\n" + getParameters());
+            throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
         }
     }
 
