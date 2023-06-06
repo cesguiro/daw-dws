@@ -6,6 +6,7 @@ import es.cesguiro.movies.db.exception.DBConnectionException;
 import es.cesguiro.movies.persistence.MovieRepository;
 import es.cesguiro.movies.persistence.exception.ResourceNotFoundException;
 import es.cesguiro.movies.persistence.exception.SQLStatmentException;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class MovieRepositoryImpl implements MovieRepository {
 
     @Override

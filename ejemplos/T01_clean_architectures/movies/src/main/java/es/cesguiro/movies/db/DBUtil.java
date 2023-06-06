@@ -1,26 +1,36 @@
 package es.cesguiro.movies.db;
 
+import es.cesguiro.movies.config.impl.ConfigSpringImpl;
 import es.cesguiro.movies.db.exception.DBConnectionException;
+import es.cesguiro.movies.config.Config;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.List;
 
+@Component
 public class DBUtil {
 
-    private static final String DRIVER = "mariadb";
-    private static final String HOST = "localhost";
-    private static final int PORT = 3306;
-    private static final String DATABASE = "imdb";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
-    
+    private static Config config;
+
+    //Necesario para poder utilizar config como estático
+    @Autowired
+    private Config autowiredConfig;
+
+    //Necesario para poder utilizar config como estático
+    @PostConstruct
+    private void init() {
+        config = this.autowiredConfig;
+    }
+
     public static Connection open(){
         try {
-            String url = "jdbc:" + DRIVER + "://" + HOST + ":" + PORT + "/" + DATABASE;
             Connection connection = DriverManager.getConnection(
-                url,
-                USER,
-                PASSWORD
+                    config.getUrlConnection(),
+                    config.getDBUser(),
+                    config.getDBPassword()
             );
             return connection;
         } catch (SQLException e) {
@@ -29,16 +39,11 @@ public class DBUtil {
     }
 
     private static String getParameters (){
-        String url = "jdbc:" + DRIVER + "://" + HOST + ":" + PORT + "/" + DATABASE;
-
-        return String.format("Driver: %s\nHost: %s\nPort: %d\nDatabase:%s\nUser: %s\nPassword: %s\n",
-                DRIVER,
-                HOST,
-                PORT,
-                DATABASE,
-                USER,
-                PASSWORD
-        ) + "URL: " + url;
+        return String.format("url: %s\nUser: %s\nPassword: %s\n",
+                config.getUrlConnection(),
+                config.getDBUser(),
+                config.getDBPassword()
+        );
     }
 
     public static void close(Connection connection) {
