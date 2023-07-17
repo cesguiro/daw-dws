@@ -17,7 +17,7 @@ public class MovieController {
 
     //private MovieService movieService = new MovieServiceImpl();
     @Autowired
-    private MovieService movieService = new MovieServiceImpl();
+    private MovieService movieService;// = new MovieServiceImpl();
 
     @GetMapping("")
     public List<Movie> getAll() {
