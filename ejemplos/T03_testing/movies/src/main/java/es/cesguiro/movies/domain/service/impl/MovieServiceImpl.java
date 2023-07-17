@@ -15,6 +15,7 @@ public class MovieServiceImpl implements MovieService {
     //@Inject (javax.inject)
     //private MovieRepository movieRepository;
     private MovieRepository movieRepository = new MovieRepositoryImpl();
+
     @Override
     public List<Movie> getAll() {
         return movieRepository.getAll();

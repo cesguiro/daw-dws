@@ -13,22 +13,4 @@ import java.util.List;
 
 public class ActorRepositoryImpl implements ActorRepository {
 
-    @Override
-    public void insert(Actor actor) {
-        final String SQL = "INSERT INTO actors (name, birthYear, deathYear) VALUES (?, ?, ?)";
-        List<Object> params = new ArrayList<>();
-        params.add(actor.getName());
-        params.add(actor.getBirthYear());
-        params.add(actor.getDeathYear());
-        try (Connection connection = DBUtil.open()){
-            DBUtil.insert(connection, SQL, params);
-            DBUtil.close(connection);
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
-            throw new SQLStatmentException("SQL: " + SQL);
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-        }
-    }
 }

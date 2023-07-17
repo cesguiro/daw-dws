@@ -7,4 +7,9 @@ import es.cesguiro.movies.persistence.impl.ActorRepositoryImpl;
 
 public class ActorServiceImpl implements ActorService {
 
+    ActorRepository actorRepository = new ActorRepositoryImpl();
+    @Override
+    public void create(Actor actor) {
+        actorRepository.insert(actor);
+    }
 }
