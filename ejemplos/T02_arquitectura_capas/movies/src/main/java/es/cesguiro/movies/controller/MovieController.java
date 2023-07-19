@@ -2,20 +2,17 @@ package es.cesguiro.movies.controller;
 
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
-import es.cesguiro.movies.domain.service.impl.MovieServiceImpl;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping("/movies")
-@Controller
+@RestController
 public class MovieController {
 
-    private MovieService movieService = new MovieServiceImpl();
+    @Autowired
+    private MovieService movieService;
 
     @GetMapping("")
     public List<Movie> getAll() {
