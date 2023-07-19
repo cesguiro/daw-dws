@@ -5,12 +5,14 @@ import es.cesguiro.movies.db.exception.DBConnectionException;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.persistence.DirectorRepository;
 import es.cesguiro.movies.persistence.exception.SQLStatmentException;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class DirectorRepositoryImpl implements DirectorRepository {
 
     @Override

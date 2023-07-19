@@ -3,17 +3,19 @@ package es.cesguiro.movies.controller;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.service.ActorService;
 import es.cesguiro.movies.domain.service.impl.ActorServiceImpl;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RequestMapping("/actors")
-@Controller
+@RestController
 public class ActorController {
 
-    ActorService actorService = new ActorServiceImpl();
+    @Autowired
+    ActorService actorService;
 
     List<Actor> actors = List.of(
             new Actor("Robert Downey Jr.", 1968, null),
