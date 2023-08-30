@@ -1,6 +1,7 @@
 package es.cesguiro.movies.db;
 
-import es.cesguiro.movies.db.exception.DBConnectionException;
+import es.cesguiro.movies.exception.DBConnectionException;
+import es.cesguiro.movies.exception.SQLStatmentException;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -47,7 +48,7 @@ public class DBUtil {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             return preparedStatement.executeQuery();            
         } catch (Exception e) {
-            throw new RuntimeException("Error al ejecutar la sentencia: " + sql);
+            throw new RuntimeException("Error executing sql statement: " + sql);
         }
     }
 
@@ -59,10 +60,10 @@ public class DBUtil {
             if(resultSet.next()){
                 return resultSet.getInt(1);
             } else {
-                throw new RuntimeException("No se puede leer el último id generado");
+                throw new RuntimeException("Cannot read last generated id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLStatmentException("SQL: " + sql);
         }
     }
 
@@ -72,8 +73,8 @@ public class DBUtil {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             int numRows = preparedStatement.executeUpdate();
             return numRows;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new SQLStatmentException("SQL: " + sql);
         }
     }
 
@@ -97,7 +98,7 @@ public class DBUtil {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLStatmentException("SQL: " + sql);
         }
     }
 

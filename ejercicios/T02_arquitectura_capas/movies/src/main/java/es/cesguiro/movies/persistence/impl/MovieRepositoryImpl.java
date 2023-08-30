@@ -2,10 +2,7 @@ package es.cesguiro.movies.persistence.impl;
 
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.db.exception.DBConnectionException;
 import es.cesguiro.movies.persistence.MovieRepository;
-import es.cesguiro.movies.persistence.exception.ResourceNotFoundException;
-import es.cesguiro.movies.persistence.exception.SQLStatmentException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -35,10 +32,8 @@ public class MovieRepositoryImpl implements MovieRepository {
             }
             DBUtil.close(connection);
             return movies;
-        } catch (DBConnectionException e) {
-            throw e;
         } catch (SQLException e) {
-            throw new SQLStatmentException("SQL: " + SQL);
+            throw new RuntimeException();
         }
     }
 
@@ -56,12 +51,10 @@ public class MovieRepositoryImpl implements MovieRepository {
                         resultSet.getInt("runtime")
                 );
             } else {
-                throw new ResourceNotFoundException("Id movie: " + id);
+                return null;
             }
-        }catch (DBConnectionException e) {
-            throw e;
         } catch (SQLException e) {
-            throw new SQLStatmentException("SQL: " + SQL);
+            throw new RuntimeException();
         }
     }
 }

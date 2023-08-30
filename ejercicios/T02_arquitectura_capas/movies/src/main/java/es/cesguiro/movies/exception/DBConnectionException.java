@@ -1,6 +1,4 @@
-package es.cesguiro.movies.db.exception;
-
-import java.util.Objects;
+package es.cesguiro.movies.exception;
 
 public class DBConnectionException extends RuntimeException{
 

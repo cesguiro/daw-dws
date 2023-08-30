@@ -1,6 +1,7 @@
 package es.cesguiro.movies.db;
 
-import es.cesguiro.movies.db.exception.DBConnectionException;
+import es.cesguiro.movies.exception.DBConnectionException;
+import es.cesguiro.movies.exception.SQLStatmentException;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -45,13 +46,13 @@ public class DBUtil {
     public static ResultSet select(Connection connection, String sql, List<Object> values) {
         try {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
-            return preparedStatement.executeQuery();            
+            return preparedStatement.executeQuery();
         } catch (Exception e) {
-            throw new RuntimeException("Error al ejecutar la sentencia: " + sql);
+            throw new RuntimeException("Error executing sql statement: " + sql);
         }
     }
 
-    public static int insert(Connection connection, String sql, List<Object> values) {    
+    public static int insert(Connection connection, String sql, List<Object> values) {
         try {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             preparedStatement.executeUpdate();
@@ -59,21 +60,21 @@ public class DBUtil {
             if(resultSet.next()){
                 return resultSet.getInt(1);
             } else {
-                throw new RuntimeException("No se puede leer el último id generado");
+                throw new RuntimeException("Cannot read last generated id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLStatmentException("SQL: " + sql);
         }
     }
 
 
-    public static int update(Connection connection, String sql, List<Object> values) {    
+    public static int update(Connection connection, String sql, List<Object> values) {
         try {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             int numRows = preparedStatement.executeUpdate();
             return numRows;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new SQLStatmentException("SQL: " + sql);
         }
     }
 
@@ -85,8 +86,8 @@ public class DBUtil {
                     Object value = values.get(i);
                     preparedStatement.setObject(i+1,value);
                 }
-            }    
-            return preparedStatement;                        
+            }
+            return preparedStatement;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -97,7 +98,7 @@ public class DBUtil {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLStatmentException("SQL: " + sql);
         }
     }
 

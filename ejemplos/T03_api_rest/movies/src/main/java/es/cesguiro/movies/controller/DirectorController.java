@@ -1,11 +1,11 @@
 package es.cesguiro.movies.controller;
 
 import es.cesguiro.movies.domain.entity.Director;
+import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/directors")
 @RestController
@@ -14,15 +14,22 @@ public class DirectorController {
     @Autowired
     DirectorService directorService;
 
-    Director director = new Director("Joss Whedon", 1964, null);
-
-    @GetMapping("/insert")
-    public void create(){
-        try {
-            directorService.create(this.director);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw e;
-        }
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("")
+    public Director create(@RequestBody Director director){
+        int id = directorService.create(director);
+        director.setId(id);
+        return director;
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}")
+    public Director update(@PathVariable("id") int id, @RequestBody Director director) {
+        //Director existingDirector = directorService.find(id);
+        //director.setId(id);
+        //return directorService.update(director);
+        return directorService.update(id, director);
+    }
+
+
 }

@@ -41,7 +41,7 @@ public class Response {
         String url = request.getRequestURL().toString();
         this.page = page;
         this.pageSize = pageSize;
-        int totalPages = (int) (Math.ceil(totalRecords / pageSize));
+        int totalPages = (int) (Math.ceil((double) totalRecords / pageSize));
         this.totalPages = totalPages;
 
         if(page > 1 && totalPages > 1)
