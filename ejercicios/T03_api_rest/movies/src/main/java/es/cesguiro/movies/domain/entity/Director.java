@@ -8,6 +8,10 @@ public class Director {
     //deathYear es de tipo Integer para poder pasarle nulos
     private Integer deathYear;
 
+    public Director(){
+
+    }
+
     public Director(int id, String name, int birthYear, Integer deathYear) {
         this.id = id;
         this.name = name;

@@ -9,7 +9,7 @@ import java.util.Optional;
 @Component
 public interface MovieRepository {
 
-    List<Movie> getAll(Optional<Integer> page, Optional<Integer> page_size);
+    List<Movie> getAll(Optional<Integer> page);
 
     Movie find(int id);
 

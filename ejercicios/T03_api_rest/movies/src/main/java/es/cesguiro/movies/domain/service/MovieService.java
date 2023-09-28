@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Service
 public interface MovieService {
-    List<Movie> getAll(Optional<Integer> page, Optional<Integer> page_size);
+    List<Movie> getAll(Optional<Integer> page);
 
     Movie find(int id);
 
