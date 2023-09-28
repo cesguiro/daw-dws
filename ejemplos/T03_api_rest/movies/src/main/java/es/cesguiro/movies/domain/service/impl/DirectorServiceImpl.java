@@ -19,12 +19,13 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public Director update(int id, Director director) {
-        Director existingDirector = directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + id));
+        /*Director existingDirector = directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + id));
 
         existingDirector.setName(director.getName());
         existingDirector.setBirthYear(director.getBirthYear());
         existingDirector.setDeathYear(director.getDeathYear());
 
-        return directorRepository.update(existingDirector);
+        return directorRepository.update(existingDirector);*/
+        return null;
     }
 }
