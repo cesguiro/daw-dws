@@ -5,7 +5,6 @@ import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.http_response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,18 +19,14 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
-    //private final int LIMIT = 10;
-
-    @Value("${page.size}")
-    private int LIMIT;
+    private final int LIMIT = 10;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    public Response getAll(@RequestParam Optional<Integer> page, @RequestParam Optional<Integer> pageSize) {
-        int limit = (pageSize.isPresent())? pageSize.get(): LIMIT;
+    public Response getAll(@RequestParam Optional<Integer> page) {
         int totalRecords = movieService.getTotalNumberOfRecords();
 
-        Response response = new Response(movieService.getAll(page, Optional.of(limit)), totalRecords, page, limit);
+        Response response = new Response(movieService.getAll(page), totalRecords, page, LIMIT);
 
         return response;
     }

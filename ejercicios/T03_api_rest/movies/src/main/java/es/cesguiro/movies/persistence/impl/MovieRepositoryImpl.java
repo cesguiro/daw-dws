@@ -3,7 +3,6 @@ package es.cesguiro.movies.persistence.impl;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.persistence.MovieRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -16,11 +15,10 @@ import java.util.Optional;
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
 
-    @Value("${page.size}")
-    private int LIMIT;
+    private final int LIMIT = 10;
 
     @Override
-    public List<Movie> getAll(Optional<Integer> page, Optional<Integer> page_size) {
+    public List<Movie> getAll(Optional<Integer> page) {
         String sql = "SELECT * FROM movies";
         if(page.isPresent()) {
             int offset = (page.get()-1) * LIMIT;

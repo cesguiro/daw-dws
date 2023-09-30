@@ -14,7 +14,7 @@ public class DirectorController {
     @Autowired
     DirectorService directorService;
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Director create(@RequestBody Director director){
         int id = directorService.create(director);

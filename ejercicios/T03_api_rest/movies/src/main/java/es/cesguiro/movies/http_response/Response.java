@@ -9,27 +9,25 @@ import lombok.Setter;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL) // No incluirá atributos nulos en el JSON
 @JsonPropertyOrder({ "page", "page size", "total pages", "total records", "previous", "next", "data"})
-public class Response<T> {
+public class Response {
 
+    private Object data;
+    //Los ponemos como Integer para que el valor por defecto sea nulo y no 0, así se pueden excluir del JSON
     @JsonProperty("total records")
     private Integer totalRecords;
-    private Map<String, Object> pagination;
-    private T data;
-    //Los ponemos como Integer para que el valor por defecto sea nulo y no 0, así se pueden excluir del JSON
-    /*private Integer page;
+    private Integer page;
     @JsonProperty("page size")
     private Integer pageSize;
     @JsonProperty("total pages")
     private Integer totalPages;
     private String next;
-    private String previous;*/
+    private String previous;
 
     public Response(Object data, int totalRecords, Optional<Integer> page, int pageSize) {
         this.data = data;
