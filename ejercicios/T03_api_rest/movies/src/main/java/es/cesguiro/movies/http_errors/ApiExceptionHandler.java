@@ -1,5 +1,6 @@
 package es.cesguiro.movies.http_errors;
 
+import es.cesguiro.movies.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

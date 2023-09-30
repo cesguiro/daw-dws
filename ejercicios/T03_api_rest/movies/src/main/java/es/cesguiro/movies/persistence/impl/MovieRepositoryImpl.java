@@ -2,10 +2,7 @@ package es.cesguiro.movies.persistence.impl;
 
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.db.exception.DBConnectionException;
 import es.cesguiro.movies.persistence.MovieRepository;
-import es.cesguiro.movies.http_errors.ResourceNotFoundException;
-import es.cesguiro.movies.persistence.exception.SQLStatmentException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -26,9 +23,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     public List<Movie> getAll(Optional<Integer> page, Optional<Integer> page_size) {
         String sql = "SELECT * FROM movies";
         if(page.isPresent()) {
-            int limit = (page_size.isPresent())? page_size.get(): LIMIT;
-            int offset = (page.get()-1) * limit;
-            sql += String.format(" LIMIT %d, %d", offset, limit);
+            int offset = (page.get()-1) * LIMIT;
+            sql += String.format(" LIMIT %d, %d", offset, LIMIT);
         }
         List<Movie> movies = new ArrayList<>();
         try (Connection connection = DBUtil.open()){
@@ -43,12 +39,9 @@ public class MovieRepositoryImpl implements MovieRepository {
                         )
                 );
             }
-            DBUtil.close(connection);
             return movies;
-        } catch (DBConnectionException e) {
-            throw e;
-        } catch (SQLException e) {
-            throw new SQLStatmentException("SQL: " + sql);
+        }  catch (SQLException e) {
+            throw new RuntimeException();
         }
     }
 
@@ -66,12 +59,10 @@ public class MovieRepositoryImpl implements MovieRepository {
                         resultSet.getInt("runtime")
                 );
             } else {
-                throw new ResourceNotFoundException("Id movie: " + id);
+                return null;
             }
-        }catch (DBConnectionException e) {
-            throw e;
         } catch (SQLException e) {
-            throw new SQLStatmentException("SQL: " + SQL);
+            throw new RuntimeException();
         }
     }
 
@@ -83,10 +74,8 @@ public class MovieRepositoryImpl implements MovieRepository {
             DBUtil.close(connection);
             resultSet.next();
             return (int) resultSet.getInt(1);
-        }catch (DBConnectionException e) {
-            throw e;
         } catch (SQLException e) {
-            throw new SQLStatmentException("SQL: " + SQL);
+            throw new RuntimeException("SQL: " + SQL);
         }
     }
 }

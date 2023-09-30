@@ -1,4 +1,4 @@
-package es.cesguiro.movies.http_errors;
+package es.cesguiro.movies.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
     private static final String DESCRIPTION = "Resource not found";
