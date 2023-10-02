@@ -22,13 +22,16 @@ public class DirectorController {
         return director;
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public Director update(@PathVariable("id") int id, @RequestBody Director director) {
-        //Director existingDirector = directorService.find(id);
-        //director.setId(id);
-        //return directorService.update(director);
-        return directorService.update(id, director);
+    public void update(@PathVariable("id") int id, @RequestBody Director director) {
+        directorService.update(id, director);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        directorService.delete(id);
     }
 
 
