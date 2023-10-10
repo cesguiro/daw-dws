@@ -23,11 +23,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie find(int id) {
-        Movie movie = movieRepository.find(id);
-        if(movie == null) {
+        return movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
+        /*if(movie == null) {
             throw new ResourceNotFoundException("Movie not found with id: " + id);
-        }
-        return movie;
+        }*/
+        //return movie;
     }
 
     @Override
