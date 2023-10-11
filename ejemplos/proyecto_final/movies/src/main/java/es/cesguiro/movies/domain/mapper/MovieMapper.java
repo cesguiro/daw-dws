@@ -14,8 +14,7 @@ public interface MovieMapper {
 
     MovieMapper mapper = Mappers.getMapper(MovieMapper.class);
 
-    Movie fromEntityToModel(MovieEntity entity);
-    List<Movie> fromEntityListToModelList(List<MovieEntity> entities);
-    MovieDetailDTO fromModelToDTO(Movie movie);
-    List<MovieListDTO> fromModelListToDTOList(List<Movie> movies);
+    Movie toModel(MovieEntity entity);
+    MovieDetailDTO toDetailDTO(Movie movie);
+    MovieListDTO toListDTO(Movie movie);
 }

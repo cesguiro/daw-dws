@@ -5,9 +5,6 @@ import es.cesguiro.movies.persistence.DAO.GenericDAO;
 import es.cesguiro.movies.persistence.entity.GenericEntity;
 import es.cesguiro.movies.persistence.factory.EntityFactory;
 import es.cesguiro.movies.persistence.mapper.GenericMapper;
-import lombok.AllArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
