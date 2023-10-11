@@ -1,8 +1,8 @@
-package es.cesguiro.movies.persistence.impl;
+package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.persistence.MovieRepository;
+import es.cesguiro.movies.domain.repository.MovieRepository;
 import es.cesguiro.movies.persistence.mapper.MovieRowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,12 +19,12 @@ public class MovieRepositoryImpl implements MovieRepository {
     private final int LIMIT = 10;
 
     @Override
-    public List<Movie> getAll(Optional<Integer> page) {
-        String sql = "SELECT * FROM movies";
-        if(page.isPresent()) {
+    public List<Movie> getAll(Integer page) {
+        String sql = String.format("SELECT * FROM movies LIMIT %d, %d", (page - 1) * LIMIT, LIMIT);
+        /*if(page.isPresent()) {
             int offset = (page.get()-1) * LIMIT;
             sql += String.format(" LIMIT %d, %d", offset, LIMIT);
-        }
+        }*/
         List<Movie> movies = new ArrayList<>();
         try (Connection connection = DBUtil.open()){
             ResultSet resultSet = DBUtil.select(connection, sql, null);

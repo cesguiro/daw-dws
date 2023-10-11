@@ -3,7 +3,7 @@ package es.cesguiro.movies.domain.service.impl;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.exception.ResourceNotFoundException;
-import es.cesguiro.movies.persistence.MovieRepository;
+import es.cesguiro.movies.domain.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
 
     @Override
-    public List<Movie> getAll(Optional<Integer> page) {
+    public List<Movie> getAll(Integer page) {
         return movieRepository.getAll(page);
     }
 

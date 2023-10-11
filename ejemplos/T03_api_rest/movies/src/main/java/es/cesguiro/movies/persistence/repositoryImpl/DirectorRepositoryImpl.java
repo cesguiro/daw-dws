@@ -1,9 +1,8 @@
-package es.cesguiro.movies.persistence.impl;
+package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Director;
-import es.cesguiro.movies.domain.entity.Movie;
-import es.cesguiro.movies.persistence.DirectorRepository;
+import es.cesguiro.movies.domain.repository.DirectorRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -11,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class DirectorRepositoryImpl implements DirectorRepository {

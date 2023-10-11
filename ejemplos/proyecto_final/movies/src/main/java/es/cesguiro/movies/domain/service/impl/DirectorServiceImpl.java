@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class DirectorServiceImpl implements DirectorService {
     @Override
     public int create(Director director) {
+        //El año de muerte es inferior al año de nacimiento? => lanza excepción
         return 0;
     }
 

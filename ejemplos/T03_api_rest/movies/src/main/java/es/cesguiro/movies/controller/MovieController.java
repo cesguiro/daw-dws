@@ -19,15 +19,16 @@ public class MovieController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    public Response getAll(@RequestParam("required = false") int page) {
+    public Response getAll(@RequestParam(required = false) Integer page) {
         //Response response = new Response(movieService.getAll(page), totalRecords, page, LIMIT);
+        page = (page != null)? page : 1;
         Response response = new Response(movieService.getAll(page));
         //Response response = new Response();
         int totalRecords = movieService.getTotalNumberOfRecords();
         response.addAdditionalAttribute("total records", totalRecords);
-        if(page.isPresent()) {
-            response.paginate(page.get(), pageSize, totalRecords);
-        }
+        //if(page.isPresent()) {
+            response.paginate(page, pageSize, totalRecords);
+        //}
         //response.setData(movieService.getAll(page));
 
         return response;
