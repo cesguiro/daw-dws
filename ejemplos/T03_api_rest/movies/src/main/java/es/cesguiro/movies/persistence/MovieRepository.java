@@ -11,7 +11,7 @@ public interface MovieRepository {
 
     List<Movie> getAll(Optional<Integer> page);
 
-    Movie find(int id);
+    Optional<Movie> find(int id);
 
     int getTotalNumberOfRecords();
 }
