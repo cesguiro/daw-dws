@@ -5,6 +5,7 @@ import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.http_response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,9 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
-    private final int LIMIT = 10;
+
+    @Value("page.size")
+    private int pageSize;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")

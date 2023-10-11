@@ -32,8 +32,6 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({
             Exception.class,
-            DBConnectionException.class,
-            SQLStatmentException.class
     })
     @ResponseBody
     public ErrorMessage exception(Exception exception) {
