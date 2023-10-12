@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/movies")
@@ -15,28 +16,24 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
-    private final int pageSize = 10;
+    private final int PAGE_SIZE = 10;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     public Response getAll(@RequestParam(required = false) Integer page) {
-        //Response response = new Response(movieService.getAll(page), totalRecords, page, LIMIT);
-        page = (page != null)? page : 1;
-        Response response = new Response(movieService.getAll(page));
-        //Response response = new Response();
+        List<Movie> movies = (page != null)? movieService.getAll(page, PAGE_SIZE) : movieService.getAll();
         int totalRecords = movieService.getTotalNumberOfRecords();
-        response.addAdditionalAttribute("total records", totalRecords);
-        //if(page.isPresent()) {
-            response.paginate(page, pageSize, totalRecords);
-        //}
-        //response.setData(movieService.getAll(page));
 
-        return response;
+        if(page != null) {
+            return new Response(movies, totalRecords, page, PAGE_SIZE);
+        } else {
+            return new Response(movies, totalRecords);
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Movie find(@PathVariable("id") int id) {
-        return movieService.find(id);
+    public Response find(@PathVariable("id") int id) {
+        return new Response(movieService.find(id));
     }
 }

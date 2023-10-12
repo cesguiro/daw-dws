@@ -15,14 +15,12 @@ import java.util.Optional;
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
 
-    private final int LIMIT = 10;
-
     @Override
-    public List<Movie> getAll(Optional<Integer> page) {
+    public List<Movie> getAll(Integer page, Integer pageSize) {
         String sql = "SELECT * FROM movies";
-        if(page.isPresent()) {
-            int offset = (page.get()-1) * LIMIT;
-            sql += String.format(" LIMIT %d, %d", offset, LIMIT);
+        if(page != null) {
+            int offset = (page - 1) * pageSize;
+            sql += String.format(" LIMIT %d, %d", offset, pageSize);
         }
         List<Movie> movies = new ArrayList<>();
         try (Connection connection = DBUtil.open()){
@@ -48,8 +46,7 @@ public class MovieRepositoryImpl implements MovieRepository {
         final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
         try (Connection connection = DBUtil.open()){
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            DBUtil.close(connection);
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return new Movie(
                         resultSet.getInt("id"),
                         resultSet.getString("title"),

@@ -31,9 +31,28 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({
-            Exception.class,
-            DBConnectionException.class,
             SQLStatmentException.class
+    })
+    @ResponseBody
+    public ErrorMessage SQLException(Exception exception) {
+        exception.printStackTrace();
+        return new ErrorMessage("SQL exception", HttpStatus.BAD_REQUEST.value());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({
+            DBConnectionException.class,
+    })
+    @ResponseBody
+    public ErrorMessage DBException(Exception exception) {
+        exception.printStackTrace();
+        return new ErrorMessage("DB timeout exception", HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({
+            Exception.class,
     })
     @ResponseBody
     public ErrorMessage exception(Exception exception) {

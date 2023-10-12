@@ -1,4 +1,4 @@
-package es.cesguiro.movies.domain.repository;
+package es.cesguiro.movies.persistence;
 
 import es.cesguiro.movies.domain.entity.Actor;
 

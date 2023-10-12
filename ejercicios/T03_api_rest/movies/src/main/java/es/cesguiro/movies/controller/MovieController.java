@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequestMapping("/movies")
 @RestController
@@ -22,21 +19,25 @@ public class MovieController {
     private MovieService movieService;
 
     @Value("page.size")
-    private int pageSize;
+    private int PAGE_SIZE;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    public Response getAll(@RequestParam Optional<Integer> page) {
+    public Response getAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer pageSize) {
+        pageSize = (pageSize != null)? pageSize : PAGE_SIZE;
+        List<Movie> movies = (page != null)? movieService.getAll(page, pageSize) : movieService.getAll();
         int totalRecords = movieService.getTotalNumberOfRecords();
 
-        Response response = new Response(movieService.getAll(page), totalRecords, page, LIMIT);
-
-        return response;
+        if(page != null) {
+            return new Response(movies, totalRecords, page, PAGE_SIZE);
+        } else {
+            return new Response(movies, totalRecords);
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Movie find(@PathVariable("id") int id) {
-        return movieService.find(id);
+    public Response find(@PathVariable("id") int id) {
+        return new Response(movieService.find(id));
     }
 }

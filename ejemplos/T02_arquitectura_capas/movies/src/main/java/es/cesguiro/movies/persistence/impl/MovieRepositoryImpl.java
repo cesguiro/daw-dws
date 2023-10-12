@@ -18,7 +18,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     public List<Movie> getAll() {
         final String SQL = "SELECT * FROM movies";
         List<Movie> movies = new ArrayList<>();
-        try (Connection connection = DBUtil.open()){
+        try (Connection connection = DBUtil.open()) {
             ResultSet resultSet = DBUtil.select(connection, SQL, null);
             while (resultSet.next()) {
                 movies.add(
@@ -32,10 +32,10 @@ public class MovieRepositoryImpl implements MovieRepository {
             }
             return movies;
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
-
+        
     @Override
     public Movie find(int id) {
         final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";

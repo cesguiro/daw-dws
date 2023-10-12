@@ -1,4 +1,4 @@
-package es.cesguiro.movies.domain.repository;
+package es.cesguiro.movies.persistence;
 
 import es.cesguiro.movies.domain.entity.Movie;
 import org.springframework.stereotype.Component;
@@ -9,9 +9,9 @@ import java.util.Optional;
 @Component
 public interface MovieRepository {
 
-    List<Movie> getAll(Integer page);
+    List<Movie> getAll(Integer page, Integer pageSize);
 
-    Optional<Movie> find(int id);
+    Movie find(int id);
 
     int getTotalNumberOfRecords();
 }
