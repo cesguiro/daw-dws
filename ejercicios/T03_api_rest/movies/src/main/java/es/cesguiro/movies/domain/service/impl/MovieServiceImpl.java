@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 public class MovieServiceImpl implements MovieService {
 
+    @Autowired
     private MovieRepository movieRepository;
 
     @Override
@@ -28,12 +29,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie find(int id) {
-        //return movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
-        Movie movie = movieRepository.find(id);
-        if(movie == null) {
-            throw new ResourceNotFoundException("Movie not found with id: " + id);
-        }
-        return movie;
+        return movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
     }
 
     @Override

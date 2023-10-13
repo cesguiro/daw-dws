@@ -42,19 +42,21 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Movie find(int id) {
+    public Optional<Movie> find(int id) {
         final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
         try (Connection connection = DBUtil.open()){
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
             if (resultSet.next()) {
-                return new Movie(
-                        resultSet.getInt("id"),
-                        resultSet.getString("title"),
-                        resultSet.getInt("year"),
-                        resultSet.getInt("runtime")
+                return Optional.of(
+                        new Movie(
+                            resultSet.getInt("id"),
+                            resultSet.getString("title"),
+                            resultSet.getInt("year"),
+                            resultSet.getInt("runtime")
+                        )
                 );
             } else {
-                return null;
+                return Optional.empty();
             }
         } catch (SQLException e) {
             throw new RuntimeException();

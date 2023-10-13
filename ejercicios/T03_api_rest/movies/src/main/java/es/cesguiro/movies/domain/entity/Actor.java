@@ -8,6 +8,10 @@ public class Actor {
     //deathYear es de tipo Integer para poder pasarle nulos
     private Integer deathYear;
 
+    public Actor(){
+
+    }
+
     public Actor(int id, String name, int birthYear, Integer deathYear) {
         this.id = id;
         this.name = name;

@@ -6,9 +6,9 @@ import java.util.Optional;
 
 public interface DirectorRepository {
     int insert(Director director);
-<<<<<<< HEAD
-=======
+    Optional<Director> find(int id);
 
-    //Optional<Director> find(int id);
->>>>>>> refs/remotes/origin/master
+    void update(Director director);
+
+    void delete(int id);
 }

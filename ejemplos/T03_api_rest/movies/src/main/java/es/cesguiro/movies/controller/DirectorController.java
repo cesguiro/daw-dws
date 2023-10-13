@@ -25,7 +25,8 @@ public class DirectorController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@PathVariable("id") int id, @RequestBody Director director) {
-        directorService.update(id, director);
+        director.setId(id);
+        directorService.update(director);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

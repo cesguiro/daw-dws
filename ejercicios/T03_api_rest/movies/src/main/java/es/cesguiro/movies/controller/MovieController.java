@@ -18,7 +18,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @Value("page.size")
+    @Value("${page.size}")
     private int PAGE_SIZE;
 
     @ResponseStatus(HttpStatus.OK)

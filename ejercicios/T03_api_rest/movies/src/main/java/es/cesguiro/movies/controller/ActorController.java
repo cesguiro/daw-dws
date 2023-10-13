@@ -1,17 +1,15 @@
 package es.cesguiro.movies.controller;
 
 import es.cesguiro.movies.domain.entity.Actor;
-import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequestMapping("/actors")
 @RestController
 public class ActorController {
+
     @Autowired
     ActorService actorService;
 
@@ -26,8 +24,14 @@ public class ActorController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@PathVariable("id") int id, @RequestBody Actor actor) {
-        actorService.update(id, actor);
+        actor.setId(id);
+        actorService.update(actor);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        actorService.delete(id);
+    }
 
 }

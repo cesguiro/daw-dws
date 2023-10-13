@@ -15,12 +15,4 @@ public class ActorController {
     @Autowired
     ActorService actorService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    public Actor create(@RequestBody Actor actor){
-        int id = actorService.create(actor);
-        actor.setId(id);
-        return actor;
-    }
-
 }

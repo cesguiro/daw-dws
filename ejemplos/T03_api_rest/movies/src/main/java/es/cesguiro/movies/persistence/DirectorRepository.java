@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface DirectorRepository {
     int insert(Director director);
 
-    Director find(int id);
+    Optional<Director> find(int id);
 
     void update(Director director);
 

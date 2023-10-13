@@ -4,5 +4,7 @@ import es.cesguiro.movies.domain.entity.Director;
 
 public interface DirectorService {
     int create(Director director);
-    Director update(int id, Director director);
+    void update(Director director);
+
+    void delete(int id);
 }
