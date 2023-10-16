@@ -1,6 +1,6 @@
 package es.cesguiro.movies.controller;
 
-import es.cesguiro.movies.domain.entity.Movie;
+import es.cesguiro.movies.dto.movie.MovieListDTO;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.http_response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@RequestMapping("/movies")
+@RequestMapping(MovieController.MOVIES)
 @RestController
 public class MovieController {
+
+    public static final String MOVIES = "/movies";
 
     @Autowired
     private MovieService movieService;
@@ -20,23 +22,30 @@ public class MovieController {
     @Value("${page.size}")
     private int PAGE_SIZE;
 
+    @Autowired
+    private String applicationURL;
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     public Response getAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer pageSize) {
         pageSize = (pageSize != null)? pageSize : PAGE_SIZE;
-        List<Movie> movies = (page != null)? movieService.getAll(page, pageSize) : movieService.getAll();
+        List<MovieListDTO> movies = (page != null)? movieService.getAll(page, pageSize) : movieService.getAll();
         int totalRecords = movieService.getTotalNumberOfRecords();
+        Response response = Response.builder()
+                .data(movies)
+                .totalRecords(totalRecords)
+                .build();
 
         if(page != null) {
-            return new Response(movies, totalRecords, page, PAGE_SIZE);
-        } else {
-            return new Response(movies, totalRecords);
+            response.paginate(page, pageSize, applicationURL);
         }
+        return response;
     }
 
-    /*@ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
-        return new Response(movieService.find(id));
-    }*/
+        return Response.builder().data(movieService.find(id)).build();
+    }
+
 }

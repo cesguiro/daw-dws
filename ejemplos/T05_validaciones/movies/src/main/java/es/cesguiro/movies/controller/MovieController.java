@@ -1,5 +1,6 @@
 package es.cesguiro.movies.controller;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.http_response.Response;
@@ -34,9 +35,9 @@ public class MovieController {
         }
     }
 
-    /*@ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
         return new Response(movieService.find(id));
-    }*/
+    }
 }
