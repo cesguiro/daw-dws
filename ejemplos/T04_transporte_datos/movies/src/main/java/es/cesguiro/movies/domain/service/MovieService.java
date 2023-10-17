@@ -9,10 +9,10 @@ import java.util.List;
 
 @Service
 public interface MovieService {
-    List<MovieListDTO> getAll(Integer page, Integer pageSize);
-    List<MovieListDTO> getAll();
+    List<Movie> getAll(Integer page, Integer pageSize);
+    List<Movie> getAll();
 
-    MovieDetailDTO find(int id);
+    Movie find(int id);
 
     int getTotalNumberOfRecords();
 }

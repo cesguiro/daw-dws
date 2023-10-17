@@ -24,7 +24,6 @@ public class Response {
     @JsonProperty("PaginationData")
     private Map<String, Object> pagination;
 
-
     public void paginate(int page, int pageSize, String url) {
         this.pagination = new HashMap<>();
         this.pagination.put("page", page);

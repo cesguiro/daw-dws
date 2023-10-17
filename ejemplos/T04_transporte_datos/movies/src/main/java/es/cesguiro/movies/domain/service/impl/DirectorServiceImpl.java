@@ -5,9 +5,9 @@ import es.cesguiro.movies.dto.director.DirectorInsertDTO;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.service.DirectorService;
 import es.cesguiro.movies.dto.director.DirectorUpdateDTO;
-import es.cesguiro.movies.dto.mapper.DirectorMapper;
+import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.exception.ResourceNotFoundException;
-import es.cesguiro.movies.persistence.DirectorRepository;
+import es.cesguiro.movies.domain.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +18,13 @@ public class DirectorServiceImpl implements DirectorService {
     DirectorRepository directorRepository;
 
     @Override
-    public int create(DirectorInsertDTO directorInsertDTO) {
-        return directorRepository.insert(DirectorMapper.mapper.toModel(directorInsertDTO));
+    public int create(Director director) {
+        return directorRepository.insert(director);
     }
 
     @Override
-    public void update(DirectorUpdateDTO directorUpdateDTO) {
-        Director director = directorRepository.find(directorUpdateDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + directorUpdateDTO.getId()));
-        director.setName(directorUpdateDTO.getName());
-        director.setBirthYear(directorUpdateDTO.getBirthYear());
-        director.setDeathYear(directorUpdateDTO.getDeathYear());
+    public void update(Director director) {
+        Director ExistingDirector = directorRepository.find(director.getId()).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + director.getId()));
         directorRepository.update(director);
     }
 
@@ -38,8 +35,8 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public DirectorDetailDTO find(int id) {
+    public Director find(int id) {
         Director director = directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + id));
-        return DirectorMapper.mapper.toDetailDTO(director);
+        return director;
     }
 }

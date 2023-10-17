@@ -1,8 +1,8 @@
-package es.cesguiro.movies.persistence.impl;
+package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Actor;
-import es.cesguiro.movies.persistence.ActorRepository;
+import es.cesguiro.movies.domain.repository.ActorRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -39,7 +39,7 @@ public class ActorRepositoryImpl implements ActorRepository {
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getInt("birthYear"),
-                                resultSet.getInt("deathYear")
+                                (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
                         )
                 );
             } else {
@@ -70,7 +70,7 @@ public class ActorRepositoryImpl implements ActorRepository {
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getInt("birthYear"),
-                                resultSet.getInt("deathYear")
+                                (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
                         )
                 );
             } while (resultSet.next());

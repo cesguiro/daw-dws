@@ -1,14 +1,15 @@
 package es.cesguiro.movies.domain.service;
 
+import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.dto.director.DirectorDetailDTO;
 import es.cesguiro.movies.dto.director.DirectorInsertDTO;
 import es.cesguiro.movies.dto.director.DirectorUpdateDTO;
 
 public interface DirectorService {
-    int create(DirectorInsertDTO directorInsertDTO);
-    void update(DirectorUpdateDTO directorUpdateDTO);
+    int create(Director director);
+    void update(Director director);
 
     void delete(int id);
 
-    DirectorDetailDTO find(int id);
+    Director find(int id);
 }

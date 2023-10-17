@@ -1,4 +1,4 @@
-package es.cesguiro.movies.dto.mapper;
+package es.cesguiro.movies.mapper;
 
 
 import es.cesguiro.movies.domain.entity.Actor;
@@ -11,5 +11,4 @@ public interface ActorMapper {
 
     ActorMapper mapper = Mappers.getMapper(ActorMapper.class);
 
-    ActorListDTO toListDTO(Actor actor);
 }

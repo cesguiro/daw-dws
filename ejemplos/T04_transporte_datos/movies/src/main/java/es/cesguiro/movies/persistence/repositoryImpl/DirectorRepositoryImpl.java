@@ -1,10 +1,8 @@
-package es.cesguiro.movies.persistence.impl;
+package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Director;
-import es.cesguiro.movies.domain.entity.Movie;
-import es.cesguiro.movies.dto.director.DirectorListDTO;
-import es.cesguiro.movies.persistence.DirectorRepository;
+import es.cesguiro.movies.domain.repository.DirectorRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -41,7 +39,7 @@ public class DirectorRepositoryImpl implements DirectorRepository {
                             resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getInt("birthYear"),
-                            resultSet.getInt("deathYear")
+                            (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
                         )
                 );
             } else {
@@ -89,7 +87,7 @@ public class DirectorRepositoryImpl implements DirectorRepository {
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getInt("birthYear"),
-                                resultSet.getInt("deathYear")
+                                (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
                         )
                 );
             } else {
