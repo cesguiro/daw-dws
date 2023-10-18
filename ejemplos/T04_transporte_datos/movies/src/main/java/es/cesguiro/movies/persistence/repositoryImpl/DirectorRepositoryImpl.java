@@ -3,6 +3,9 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
+import es.cesguiro.movies.mapper.DirectorMapper;
+import es.cesguiro.movies.persistence.dao.DirectorDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -15,17 +18,12 @@ import java.util.Optional;
 @Repository
 public class DirectorRepositoryImpl implements DirectorRepository {
 
+    @Autowired
+    DirectorDAO directorDAO;
+
     @Override
     public int insert(Director director) {
-        final String SQL = "INSERT INTO directors (name, birthYear, deathYear) VALUES (?, ?, ?)";
-        List<Object> params = new ArrayList<>();
-        params.add(director.getName());
-        params.add(director.getBirthYear());
-        params.add(director.getDeathYear());
-        Connection connection = DBUtil.open();
-        int id = DBUtil.insert(connection, SQL, params);
-        DBUtil.close(connection);
-        return id;
+        return directorDAO.insert(DirectorMapper.mapper.toDirectorEntity(director));
     }
 
     @Override
@@ -52,23 +50,12 @@ public class DirectorRepositoryImpl implements DirectorRepository {
 
     @Override
     public void update(Director director) {
-        final String SQL = "UPDATE directors SET name = ?, birthYear = ?, deathYear = ? WHERE id = ?";
-        List<Object> params = new ArrayList<>();
-        params.add(director.getName());
-        params.add(director.getBirthYear());
-        params.add(director.getDeathYear());
-        params.add(director.getId());
-        Connection connection = DBUtil.open();
-        DBUtil.update(connection, SQL, params);
-        DBUtil.close(connection);
+        directorDAO.update(DirectorMapper.mapper.toDirectorEntity(director));
     }
 
     @Override
     public void delete(int id) {
-        final String SQL = "DELETE FROM directors WHERE id = ?";
-        Connection connection = DBUtil.open();
-        DBUtil.delete(connection, SQL, List.of(id));
-        DBUtil.close(connection);
+        directorDAO.delete(id);
     }
 
     @Override

@@ -33,36 +33,15 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public Optional<Movie> find(int id) {
-        final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            if (resultSet.next()) {
-                return Optional.of(
-                        new Movie(
-                            resultSet.getInt("id"),
-                            resultSet.getString("title"),
-                            resultSet.getInt("year"),
-                            resultSet.getInt("runtime")
-                        )
-                );
-            } else {
-                return Optional.empty();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException();
+        Optional<MovieEntity> movieEntity = movieDAO.find(id);
+        if(movieEntity.isEmpty()) {
+            return Optional.empty();
         }
+        return Optional.of(MovieMapper.mapper.toMovie(movieEntity.get()));
     }
 
     @Override
     public int getTotalNumberOfRecords() {
-        final String SQL = "SELECT COUNT(*) FROM movies";
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, SQL, null);
-            DBUtil.close(connection);
-            resultSet.next();
-            return (int) resultSet.getInt(1);
-        } catch (SQLException e) {
-            throw new RuntimeException("SQL: " + SQL);
-        }
+       return movieDAO.getTotalNumberOfRecords();
     }
 }
