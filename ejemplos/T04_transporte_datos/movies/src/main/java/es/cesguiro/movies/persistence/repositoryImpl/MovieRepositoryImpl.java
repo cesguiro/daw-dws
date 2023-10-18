@@ -3,6 +3,10 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.repository.MovieRepository;
+import es.cesguiro.movies.mapper.MovieMapper;
+import es.cesguiro.movies.persistence.dao.MovieDAO;
+import es.cesguiro.movies.persistence.model.MovieEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -15,31 +19,16 @@ import java.util.Optional;
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
 
+    @Autowired
+    MovieDAO movieDAO;
+
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
-        String sql = "SELECT * FROM movies";
-        if(page != null) {
-            int offset = (page - 1) * pageSize;
-            sql += String.format(" LIMIT %d, %d", offset, pageSize);
-        }
-        List<Movie> movies = new ArrayList<>();
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, sql, null);
-            while (resultSet.next()) {
-                //movies.add(MovieMapper.mapper.toListDTO(resultSet));
-                movies.add(
-                        new Movie(
-                                resultSet.getInt("id"),
-                                resultSet.getString("title"),
-                                resultSet.getInt("year"),
-                                resultSet.getInt("runtime")
-                        )
-                );
-            }
-            return movies;
-        }  catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        List<MovieEntity> movieEntities = movieDAO.findAll(page, pageSize);
+        List<Movie> movies = movieEntities.stream()
+                .map(movieEntity -> MovieMapper.mapper.toMovie(movieEntity))
+                .toList();
+        return movies;
     }
 
     @Override

@@ -1,7 +1,10 @@
 package es.cesguiro.movies.domain.entity;
 
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@NoArgsConstructor
 public class Movie {
 
     private int id;
