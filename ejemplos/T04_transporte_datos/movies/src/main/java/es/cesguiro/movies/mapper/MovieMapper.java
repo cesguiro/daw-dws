@@ -30,7 +30,13 @@ public interface MovieMapper {
     @Mapping(target = "runtime", expression = "java(resultSet.getInt(\"runtime\"))")
     MovieEntity toMovieEntity(ResultSet resultSet) throws SQLException;
     Movie toMovie(MovieEntity movieEntity);
-    @Mapping(target = "director.id", source = "directorId")
+
+    @Mapping(target = "director", ignore = true)
+    @Mapping(target = "actors", ignore = true)
+    Movie toMovie(MovieCreateWeb movieCreateWeb);
+
+    MovieEntity toMovieEntity(Movie movie);
+    /*@Mapping(target = "director.id", source = "directorId")
     @Mapping(target = "actors", source = "actorIds", qualifiedByName = "actorIdsToActors")
     Movie toMovie(MovieCreateWeb movieCreateWeb);
 
@@ -43,7 +49,7 @@ public interface MovieMapper {
                     return actor;
                 })
                 .toList();
-    }
+    }*/
 
     /*MovieDetailDTO toDetailDTO(ResultSet resultSet) throws SQLException;
     MovieListDTO toListDTO(Movie movie);

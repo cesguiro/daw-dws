@@ -15,5 +15,13 @@ public class MovieEntity {
     private String title;
     private int year;
     private int runtime;
+    private int directorId;
 
+
+    public MovieEntity(int id, String title, int year, int runtime) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.runtime = runtime;
+    }
 }

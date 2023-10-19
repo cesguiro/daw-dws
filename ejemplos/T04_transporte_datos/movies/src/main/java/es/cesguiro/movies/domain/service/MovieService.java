@@ -15,4 +15,6 @@ public interface MovieService {
     Movie find(int id);
 
     int getTotalNumberOfRecords();
+
+    int create(Movie movie, int directorId, List<Integer> actorIds);
 }

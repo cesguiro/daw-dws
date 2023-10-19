@@ -58,6 +58,11 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Response create(@RequestBody MovieCreateWeb movieCreateWebCreateWeb) {
+        movieService.create(
+                MovieMapper.mapper.toMovie(movieCreateWebCreateWeb),
+                movieCreateWebCreateWeb.getDirectorId(),
+                movieCreateWebCreateWeb.getActorIds()
+        );
         return Response.builder().data(MovieMapper.mapper.toMovie(movieCreateWebCreateWeb)).build();
     }
 

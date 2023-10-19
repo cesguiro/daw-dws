@@ -54,4 +54,18 @@ public class MovieServiceImpl implements MovieService {
     public int getTotalNumberOfRecords() {
         return movieRepository.getTotalNumberOfRecords();
     }
+
+    @Override
+    public int create(Movie movie, int directorId, List<Integer> actorIds) {
+        Director director = directorRepository.find(directorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + directorId));
+        List<Actor> actors = actorIds.stream()
+                .map(actorId -> actorRepository.find(actorId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + actorId))
+                )
+                .toList();
+        movie.setDirector(director);
+        movie.setActors(actors);
+        return movieRepository.insert(movie);
+    }
 }

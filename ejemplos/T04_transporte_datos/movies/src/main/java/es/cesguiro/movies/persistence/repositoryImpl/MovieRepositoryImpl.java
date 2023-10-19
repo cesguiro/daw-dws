@@ -44,4 +44,13 @@ public class MovieRepositoryImpl implements MovieRepository {
     public int getTotalNumberOfRecords() {
        return movieDAO.getTotalNumberOfRecords();
     }
+
+    @Override
+    public int insert(Movie movie) {
+        //insertar la película
+        return movieDAO.insert(MovieMapper.mapper.toMovieEntity(movie));
+        //insertar los actores
+    }
+
+
 }

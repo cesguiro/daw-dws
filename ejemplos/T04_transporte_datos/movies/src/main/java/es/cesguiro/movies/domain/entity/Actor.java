@@ -20,7 +20,6 @@ public class Actor {
     }
 
     public Actor(String name, int birthYear, Integer deathYear) {
-        this.id = id;
         this.name = name;
         this.birthYear = birthYear;
         this.deathYear = deathYear;
