@@ -1,5 +1,7 @@
 package es.cesguiro.movies.controller;
 
+import es.cesguiro.movies.controller.model.director.DirectorCreateWeb;
+import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.mapper.MovieMapper;
@@ -51,6 +53,12 @@ public class MovieController {
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
         return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id))).build();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    public Response create(@RequestBody MovieCreateWeb movieCreateWebCreateWeb) {
+        return Response.builder().data(MovieMapper.mapper.toMovie(movieCreateWebCreateWeb)).build();
     }
 
 }
