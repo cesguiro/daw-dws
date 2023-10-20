@@ -10,5 +10,4 @@ public class MainController {
     public String index(){
         return "Bienvenido a la API de películas";
     }
-
 }

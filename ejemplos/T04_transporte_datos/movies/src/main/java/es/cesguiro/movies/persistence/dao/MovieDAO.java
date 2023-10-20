@@ -3,6 +3,7 @@ package es.cesguiro.movies.persistence.dao;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.mapper.MovieMapper;
+import es.cesguiro.movies.persistence.model.ActorEntity;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.springframework.stereotype.Component;
 
@@ -78,5 +79,13 @@ public class MovieDAO {
         int id = DBUtil.insert(connection, SQL, params);
         DBUtil.close(connection);
         return id;
+    }
+
+    public void addActor(int movieId, ActorEntity actorEntity) {
+        final String SQL = "INSERT INTO actors_movies (actor_id, movie_id) VALUES (?, ?)";
+        List<Object> params = new ArrayList<>();
+        Connection connection = DBUtil.open();
+        DBUtil.insert(connection, SQL, List.of(actorEntity.getId(), movieId));
+        DBUtil.close(connection);
     }
 }
