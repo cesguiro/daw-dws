@@ -2,6 +2,7 @@ package es.cesguiro.movies.persistence.dao;
 
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.persistence.model.ActorEntity;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ActorDAO {
 
     public int insert(ActorEntity actorEntity) {

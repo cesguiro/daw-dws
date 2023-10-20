@@ -3,7 +3,9 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.repository.MovieRepository;
+import es.cesguiro.movies.mapper.ActorMapper;
 import es.cesguiro.movies.mapper.MovieMapper;
+import es.cesguiro.movies.persistence.dao.ActorDAO;
 import es.cesguiro.movies.persistence.dao.MovieDAO;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Autowired
     MovieDAO movieDAO;
+
+    @Autowired
+    ActorDAO actorDAO;
 
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
@@ -48,8 +53,11 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public int insert(Movie movie) {
         //insertar la película
-        return movieDAO.insert(MovieMapper.mapper.toMovieEntity(movie));
+        int id = movieDAO.insert(MovieMapper.mapper.toMovieEntity(movie));
         //insertar los actores
+        //movie.getActors().forEach(actor -> actorDAO.insert(ActorMapper.mapper.));
+
+        return id;
     }
 
 
