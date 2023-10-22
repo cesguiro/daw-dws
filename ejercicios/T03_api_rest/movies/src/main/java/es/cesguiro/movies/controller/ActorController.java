@@ -2,6 +2,7 @@ package es.cesguiro.movies.controller;
 
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.service.ActorService;
+import es.cesguiro.movies.http_response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,10 @@ public class ActorController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Actor create(@RequestBody Actor actor){
+    public Response create(@RequestBody Actor actor){
         int id = actorService.create(actor);
         actor.setId(id);
-        return actor;
+        return new Response(actor);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

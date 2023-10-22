@@ -34,9 +34,9 @@ public class MovieController {
         }
     }
 
-    /*@ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
         return new Response(movieService.find(id));
-    }*/
+    }
 }

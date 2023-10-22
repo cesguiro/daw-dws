@@ -2,7 +2,6 @@ package es.cesguiro.movies.controller;
 
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.service.ActorService;
-import es.cesguiro.movies.dto.director.DirectorDetailDTO;
 import es.cesguiro.movies.http_response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +16,10 @@ public class ActorController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Actor create(@RequestBody Actor actor){
+    public Response create(@RequestBody Actor actor){
         int id = actorService.create(actor);
         actor.setId(id);
-        return actor;
+        return new Response.builder().data(directorDetailWeb).build();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
