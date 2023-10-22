@@ -1,6 +1,7 @@
 package es.cesguiro.movies.domain.service.impl;
 
 import es.cesguiro.movies.domain.entity.Actor;
+import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.service.ActorService;
 import es.cesguiro.movies.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.repository.ActorRepository;
@@ -27,5 +28,11 @@ public class ActorServiceImpl implements ActorService {
     public void delete(int id) {
         actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + id));
         actorRepository.delete(id);
+    }
+
+    @Override
+    public Actor find(int id) {
+        Actor actor = actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + id));
+        return actor;
     }
 }

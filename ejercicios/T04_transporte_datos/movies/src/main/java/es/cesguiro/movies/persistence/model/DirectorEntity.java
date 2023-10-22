@@ -14,5 +14,5 @@ public class DirectorEntity {
     private int id;
     private String name;
     private int birthYear;
-    private int deathYear;
+    private Integer deathYear;
 }

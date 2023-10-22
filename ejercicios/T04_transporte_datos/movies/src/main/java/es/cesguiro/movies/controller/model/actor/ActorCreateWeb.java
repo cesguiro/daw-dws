@@ -1,17 +1,14 @@
-package es.cesguiro.movies.persistence.model;
+package es.cesguiro.movies.controller.model.actor;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class DirectorEntity {
+public class ActorCreateWeb {
 
-    private int id;
     private String name;
     private int birthYear;
     private Integer deathYear;

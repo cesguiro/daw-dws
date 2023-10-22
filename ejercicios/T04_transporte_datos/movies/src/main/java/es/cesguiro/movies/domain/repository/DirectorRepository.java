@@ -1,7 +1,6 @@
 package es.cesguiro.movies.domain.repository;
 
 import es.cesguiro.movies.domain.entity.Director;
-import es.cesguiro.movies.dto.director.DirectorListDTO;
 
 import java.util.Optional;
 

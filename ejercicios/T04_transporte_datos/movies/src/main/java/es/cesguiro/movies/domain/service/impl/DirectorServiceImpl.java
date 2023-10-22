@@ -32,7 +32,7 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     public Director find(int id) {
-        Director director = directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + id));
+        Director director = directorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Director no encontrado con id: " + id));
         return director;
     }
 }

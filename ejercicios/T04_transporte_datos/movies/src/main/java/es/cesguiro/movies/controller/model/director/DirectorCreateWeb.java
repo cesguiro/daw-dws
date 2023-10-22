@@ -11,5 +11,5 @@ public class DirectorCreateWeb {
 
     private String name;
     private int birthYear;
-    private int deathYear;
+    private Integer deathYear;
 }

@@ -1,7 +1,5 @@
 package es.cesguiro.movies.domain.service;
 
-import es.cesguiro.movies.dto.movie.MovieDetailDTO;
-import es.cesguiro.movies.dto.movie.MovieListDTO;
 import es.cesguiro.movies.domain.entity.Movie;
 import org.springframework.stereotype.Service;
 

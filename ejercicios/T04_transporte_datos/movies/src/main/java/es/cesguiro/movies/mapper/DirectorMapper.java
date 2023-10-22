@@ -28,5 +28,5 @@ public interface DirectorMapper {
     @Mapping(target = "birthYear", expression = "java(resultSet.getInt(\"birthYear\"))")
     @Mapping(target = "deathYear", expression = "java(resultSet.getInt(\"deathYear\"))")
     DirectorEntity toDirectorEntity(ResultSet resultSet) throws SQLException;
-    Director toDirector(DirectorEntity DirectorEntity);
+    Director toDirector(DirectorEntity directorEntity);
 }
