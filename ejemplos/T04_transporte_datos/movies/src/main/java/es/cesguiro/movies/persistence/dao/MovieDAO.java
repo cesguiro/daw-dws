@@ -1,9 +1,7 @@
 package es.cesguiro.movies.persistence.dao;
 
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.mapper.MovieMapper;
-import es.cesguiro.movies.persistence.model.ActorEntity;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.springframework.stereotype.Component;
 
@@ -17,75 +15,70 @@ import java.util.Optional;
 @Component
 public class MovieDAO {
 
-    public List<MovieEntity> findAll(Integer page, Integer pageSize) {
+    public List<MovieEntity> findAll(Connection connection, Integer page, Integer pageSize) {
+        List<Object> params = null;
         String sql = "SELECT * FROM movies";
         if(page != null) {
             int offset = (page - 1) * pageSize;
-            sql += String.format(" LIMIT %d, %d", offset, pageSize);
+            sql += " LIMIT ?, ?";
+            params = List.of(offset, pageSize);
         }
         List<MovieEntity> movieEntities = new ArrayList<>();
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, sql, null);
+        try{
+            ResultSet resultSet = DBUtil.select(connection, sql, params);
             while (resultSet.next()) {
                 movieEntities.add(MovieMapper.mapper.toMovieEntity(resultSet));
             }
             return movieEntities;
-        }  catch (SQLException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    public Optional<MovieEntity> find(int id) {
-        final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            if (resultSet.next()) {
-                return Optional.of(
-                        new MovieEntity(
-                                resultSet.getInt("id"),
-                                resultSet.getString("title"),
-                                resultSet.getInt("year"),
-                                resultSet.getInt("runtime")
-                        )
-                );
-            } else {
-                return Optional.empty();
-            }
         } catch (SQLException e) {
             throw new RuntimeException();
         }
     }
 
-    public int getTotalNumberOfRecords() {
+    public Optional<MovieEntity> find(Connection connection, int id) {
+        final String SQL = "SELECT * FROM movies WHERE id = ? LIMIT 1";
+        try {
+            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
+            return Optional.ofNullable(resultSet.next()? MovieMapper.mapper.toMovieEntity(resultSet):null);
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public int getTotalNumberOfRecords(Connection connection) {
         final String SQL = "SELECT COUNT(*) FROM movies";
-        try (Connection connection = DBUtil.open()){
+        try {
             ResultSet resultSet = DBUtil.select(connection, SQL, null);
-            DBUtil.close(connection);
             resultSet.next();
-            return (int) resultSet.getInt(1);
+            return resultSet.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException("SQL: " + SQL);
         }
     }
 
-    public int insert(MovieEntity movieEntity) {
-        final String SQL = "INSERT INTO movies (title, year, runtime, director_id) VALUES (?, ?, ?, ?)";
-        List<Object> params = new ArrayList<>();
-        params.add(movieEntity.getTitle());
-        params.add(movieEntity.getYear());
-        params.add(movieEntity.getRuntime());
-        params.add(movieEntity.getDirectorId());
-        Connection connection = DBUtil.open();
-        int id = DBUtil.insert(connection, SQL, params);
-        DBUtil.close(connection);
-        return id;
+    public int insert(Connection connection, MovieEntity movieEntity) throws SQLException {
+        try {
+            final String SQL = "INSERT INTO movies (title, year, runtime, director_id) VALUES (?, ?, ?, ?)";
+            List<Object> params = new ArrayList<>();
+            params.add(movieEntity.getTitle());
+            params.add(movieEntity.getYear());
+            params.add(movieEntity.getRuntime());
+            params.add(movieEntity.getDirectorId());
+            int id = DBUtil.insert(connection, SQL, params);
+            //insertar los actores
+            movieEntity.getActorIds().stream()
+                    .forEach(actorId -> addActor(connection, id, actorId));
+                    //.forEach(actorId -> addActor(connection, 0, actorId));
+            connection.commit();
+            return id;
+        } catch (Exception e) {
+            connection.rollback();
+            throw new RuntimeException(e);
+        }
     }
 
-    public void addActor(int movieId, ActorEntity actorEntity) {
+    public void addActor(Connection connection, int movieId, int actorId) {
         final String SQL = "INSERT INTO actors_movies (actor_id, movie_id) VALUES (?, ?)";
-        List<Object> params = new ArrayList<>();
-        Connection connection = DBUtil.open();
-        DBUtil.insert(connection, SQL, List.of(actorEntity.getId(), movieId));
-        DBUtil.close(connection);
+        DBUtil.insert(connection, SQL, List.of(actorId, movieId));
     }
 }

@@ -1,8 +1,6 @@
 package es.cesguiro.movies.controller;
 
-import es.cesguiro.movies.controller.model.director.DirectorCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
-import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.mapper.MovieMapper;

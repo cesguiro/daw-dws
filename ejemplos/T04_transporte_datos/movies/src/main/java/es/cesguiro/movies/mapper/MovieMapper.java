@@ -37,28 +37,14 @@ public interface MovieMapper {
 
 
     @Mapping(target = "directorId", expression = "java(movie.getDirector().getId())")
+    @Mapping(target = "actorIds", expression = "java(mapActorsToActorIds(movie.getActors()))")
     MovieEntity toMovieEntity(Movie movie);
 
-    /*@Mapping(target = "director.id", source = "directorId")
-    @Mapping(target = "actors", source = "actorIds", qualifiedByName = "actorIdsToActors")
-    Movie toMovie(MovieCreateWeb movieCreateWeb);
-
-    @Named("actorIdsToActors")
-    default List<Actor> mapActorIdsToActors(List<Integer> actorIds) {
-        return actorIds.stream()
-                .map(id -> {
-                    Actor actor = new Actor();
-                    actor.setId(id);
-                    return actor;
-                })
+    @Named("actorToActorIds")
+    default List<Integer> mapActorsToActorIds(List<Actor> actors) {
+        return actors.stream()
+                .map(actor -> actor.getId())
                 .toList();
-    }*/
-
-    /*MovieDetailDTO toDetailDTO(ResultSet resultSet) throws SQLException;
-    MovieListDTO toListDTO(Movie movie);
-    @Mapping(target = "id", expression = "java(resultSet.getInt(\"id\"))")
-    @Mapping(target = "title", expression = "java(resultSet.getString(\"title\"))")
-    @Mapping(target = "year", expression = "java(resultSet.getInt(\"year\"))")
-    MovieListDTO toListDTO(ResultSet resultSet) throws SQLException;*/
+    }
 
 }

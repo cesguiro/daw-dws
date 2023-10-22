@@ -1,6 +1,5 @@
 package es.cesguiro.movies.controller.model.movie;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.cesguiro.movies.controller.model.actor.ActorListWeb;
 import es.cesguiro.movies.controller.model.director.DirectorListWeb;
 import lombok.Getter;

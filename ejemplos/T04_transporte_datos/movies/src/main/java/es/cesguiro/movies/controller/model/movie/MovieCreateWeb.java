@@ -1,7 +1,5 @@
 package es.cesguiro.movies.controller.model.movie;
 
-import es.cesguiro.movies.controller.model.actor.ActorListWeb;
-import es.cesguiro.movies.controller.model.director.DirectorListWeb;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -4,7 +4,10 @@ import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
 import es.cesguiro.movies.mapper.DirectorMapper;
+import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.persistence.dao.DirectorDAO;
+import es.cesguiro.movies.persistence.model.DirectorEntity;
+import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,26 +26,21 @@ public class DirectorRepositoryImpl implements DirectorRepository {
 
     @Override
     public int insert(Director director) {
-        return directorDAO.insert(DirectorMapper.mapper.toDirectorEntity(director));
+        try (Connection connection = DBUtil.open(true)){
+            return directorDAO.insert(connection, DirectorMapper.mapper.toDirectorEntity(director));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Optional<Director> find(int id) {
-        final String SQL = "SELECT * FROM directors WHERE id = ? LIMIT 1";
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            if (resultSet.next()) {
-                return Optional.of(
-                        new Director(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getInt("birthYear"),
-                            (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
-                        )
-                );
-            } else {
+        try (Connection connection = DBUtil.open(true)){
+            Optional<DirectorEntity> directorEntity = directorDAO.find(connection, id);
+            if(directorEntity.isEmpty()) {
                 return Optional.empty();
             }
+            return Optional.of(DirectorMapper.mapper.toDirector(directorEntity.get()));
         } catch (SQLException e) {
             throw new RuntimeException();
         }
@@ -50,40 +48,32 @@ public class DirectorRepositoryImpl implements DirectorRepository {
 
     @Override
     public void update(Director director) {
-        directorDAO.update(DirectorMapper.mapper.toDirectorEntity(director));
+        try(Connection connection= DBUtil.open(true)) {
+            directorDAO.update(connection, DirectorMapper.mapper.toDirectorEntity(director));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void delete(int id) {
-        directorDAO.delete(id);
+        try(Connection connection= DBUtil.open(true)) {
+            directorDAO.delete(connection, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Optional<Director> findByMovieId(int movieId) {
-        final String SQL = """
-            SELECT d.* FROM directors d 
-            INNER JOIN  movies m ON m.director_id = d.id
-            WHERE m.id = ?
-            LIMIT 1
-        """;
-        try (Connection connection = DBUtil.open()){
-            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(movieId));
-            if (resultSet.next()) {
-                return Optional.of(
-                        new Director(
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getInt("birthYear"),
-                                (resultSet.getObject("deathYear") != null)? resultSet.getInt("deathYear") : null
-                        )
-                );
-            } else {
+        try(Connection connection= DBUtil.open(true)) {
+            Optional<DirectorEntity> directorEntity = directorDAO.findByMovieId(connection, movieId);
+            if(directorEntity.isEmpty()) {
                 return Optional.empty();
             }
+            return Optional.of(DirectorMapper.mapper.toDirector(directorEntity.get()));
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
-
-
 }

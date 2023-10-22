@@ -19,13 +19,13 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public void update(Actor actor) {
-        Actor existingDirector = actorRepository.find(actor.getId()).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + actor.getId()));
+        actorRepository.find(actor.getId()).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + actor.getId()));
         actorRepository.update(actor);
     }
 
     @Override
     public void delete(int id) {
-        Actor actor = actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + id));
+        actorRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + id));
         actorRepository.delete(id);
     }
 }
