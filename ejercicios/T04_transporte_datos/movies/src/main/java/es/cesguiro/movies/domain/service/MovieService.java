@@ -1,6 +1,5 @@
 package es.cesguiro.movies.domain.service;
 
-import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.dto.MovieDTO;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +14,5 @@ public interface MovieService {
 
     int getTotalNumberOfRecords();
 
-    int create(Movie movie, int directorId, List<Integer> actorIds);
+    int create(MovieDTO movieDTO, int directorId, List<Integer> actorIds);
 }

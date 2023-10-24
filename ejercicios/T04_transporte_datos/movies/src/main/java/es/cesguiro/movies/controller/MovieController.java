@@ -1,15 +1,8 @@
 package es.cesguiro.movies.controller;
 
-import es.cesguiro.movies.controller.model.actor.ActorListWeb;
 import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
-import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
-import es.cesguiro.movies.domain.entity.Movie;
-import es.cesguiro.movies.dto.ActorDTO;
-import es.cesguiro.movies.dto.DirectorDTO;
 import es.cesguiro.movies.dto.MovieDTO;
-import es.cesguiro.movies.mapper.ActorMapper;
-import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.http_response.Response;
@@ -58,24 +51,16 @@ public class MovieController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
-        //return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id))).build();
-        MovieDTO movieDTO = movieService.find(id);
-        DirectorDTO directorDTO = movieDTO.getDirectorDTO();
-        List<ActorDTO> actorDTOs = movieDTO.getActorDTOs();
-        MovieDetailWeb movieDetailWeb = MovieMapper.mapper.toMovieDetailWeb(movieDTO);
-        movieDetailWeb.setDirector(DirectorMapper.mapper.toDirectorListWeb(directorDTO));
-        List<ActorListWeb> actorListWebs = actorDTOs.stream()
-                .map(ActorMapper.mapper::toActorListWeb)
-                .toList();
-        movieDetailWeb.setActors(actorListWebs);
-        return Response.builder().data(movieDetailWeb).build();
+        return Response.builder()
+                .data(MovieMapper.mapper.toMovieDetailWeb(movieService.find(id)))
+                .build();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Response create(@RequestBody MovieCreateWeb movieCreateWebCreateWeb) {
         int id = movieService.create(
-                MovieMapper.mapper.toMovie(movieCreateWebCreateWeb),
+                MovieMapper.mapper.toMovieDTO(movieCreateWebCreateWeb),
                 movieCreateWebCreateWeb.getDirectorId(),
                 movieCreateWebCreateWeb.getActorIds()
         );

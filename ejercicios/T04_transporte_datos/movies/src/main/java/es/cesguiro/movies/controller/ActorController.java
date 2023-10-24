@@ -20,7 +20,7 @@ public class ActorController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Response create(@RequestBody ActorCreateWeb actorCreateWeb){
-        int id = actorService.create(ActorMapper.mapper.toActor(actorCreateWeb));
+        int id = actorService.create(ActorMapper.mapper.toActorDTO(actorCreateWeb));
         ActorDetailWeb directorDetailWeb = new ActorDetailWeb(
                 id,
                 actorCreateWeb.getName(),
@@ -34,7 +34,7 @@ public class ActorController {
     @PutMapping("/{id}")
     public void update(@PathVariable("id") int id, @RequestBody ActorUpdateWeb actorUpdateWeb) {
         actorUpdateWeb.setId(id);
-        actorService.update(ActorMapper.mapper.toActor(actorUpdateWeb));
+        actorService.update(ActorMapper.mapper.toActorDTO(actorUpdateWeb));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

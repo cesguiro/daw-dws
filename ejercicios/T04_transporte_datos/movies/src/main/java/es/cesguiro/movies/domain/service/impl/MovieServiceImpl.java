@@ -11,6 +11,8 @@ import es.cesguiro.movies.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.repository.ActorRepository;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
 import es.cesguiro.movies.domain.repository.MovieRepository;
+import es.cesguiro.movies.mapper.ActorMapper;
+import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.mapper.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,16 +72,21 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public int create(Movie movie, int directorId, List<Integer> actorIds) {
-        Director director = directorRepository.find(directorId)
+    public int create(MovieDTO movieDTO, int directorId, List<Integer> actorIds) {
+        DirectorDTO directorDTO = directorRepository.find(directorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + directorId));
-        List<Actor> actors = actorIds.stream()
+        List<ActorDTO> actorDTOs = actorIds.stream()
                 .map(actorId -> actorRepository.find(actorId)
                         .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + actorId))
                 )
                 .toList();
-        movie.setDirector(director);
-        movie.setActors(actors);
-        return movieRepository.insert(movie);
+        Movie movie = MovieMapper.mapper.toMovie(movieDTO);
+        movie.setDirector(DirectorMapper.mapper.toDirector(directorDTO));
+        movie.setActors(
+                actorDTOs.stream()
+                        .map(ActorMapper.mapper::toActor)
+                        .toList()
+        );
+        return movieRepository.insert(MovieMapper.mapper.toMovieDTO(movie));
     }
 }

@@ -1,7 +1,6 @@
 package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.repository.ActorRepository;
 import es.cesguiro.movies.dto.ActorDTO;
 import es.cesguiro.movies.mapper.ActorMapper;
@@ -21,9 +20,9 @@ public class ActorRepositoryImpl implements ActorRepository {
     @Autowired
     ActorDAO actorDAO;
     @Override
-    public int insert(Actor actor) {
+    public int insert(ActorDTO actorDTO) {
         try (Connection connection = DBUtil.open(true)){
-            return actorDAO.insert(connection, ActorMapper.mapper.toActorEntity(actor));
+            return actorDAO.insert(connection, ActorMapper.mapper.toActorEntity(actorDTO));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -31,13 +30,13 @@ public class ActorRepositoryImpl implements ActorRepository {
     }
 
     @Override
-    public Optional<Actor> find(int id) {
+    public Optional<ActorDTO> find(int id) {
         try (Connection connection = DBUtil.open(true)){
             Optional<ActorEntity> actorEntity = actorDAO.find(connection, id);
             if(actorEntity.isEmpty()) {
                 return Optional.empty();
             }
-            return Optional.of(ActorMapper.mapper.toActor(actorEntity.get()));
+            return Optional.of(ActorMapper.mapper.toActorDTO(actorEntity.get()));
         } catch (SQLException e) {
             throw new RuntimeException();
         }
@@ -57,9 +56,9 @@ public class ActorRepositoryImpl implements ActorRepository {
     }
 
     @Override
-    public void update(Actor actor) {
+    public void update(ActorDTO actorDTO) {
         try(Connection connection= DBUtil.open(true)) {
-            actorDAO.update(connection, ActorMapper.mapper.toActorEntity(actor));
+            actorDAO.update(connection, ActorMapper.mapper.toActorEntity(actorDTO));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

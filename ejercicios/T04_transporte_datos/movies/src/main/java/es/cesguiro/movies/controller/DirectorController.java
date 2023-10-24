@@ -20,7 +20,7 @@ public class DirectorController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Response create(@RequestBody DirectorCreateWeb directorCreateWeb){
-        int id = directorService.create(DirectorMapper.mapper.toDirector(directorCreateWeb));
+        int id = directorService.create(DirectorMapper.mapper.toDirectorDTO(directorCreateWeb));
         DirectorDetailWeb directorDetailWeb = new DirectorDetailWeb(
                 id,
                 directorCreateWeb.getName(),
@@ -34,7 +34,7 @@ public class DirectorController {
     @PutMapping("/{id}")
     public void update(@PathVariable("id") int id, @RequestBody DirectorUpdateWeb directorUpdateWeb) {
         directorUpdateWeb.setId(id);
-        directorService.update(DirectorMapper.mapper.toDirector(directorUpdateWeb));
+        directorService.update(DirectorMapper.mapper.toDirectorDTO(directorUpdateWeb));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

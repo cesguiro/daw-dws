@@ -6,10 +6,10 @@ import es.cesguiro.movies.dto.DirectorDTO;
 import java.util.Optional;
 
 public interface DirectorRepository {
-    int insert(Director director);
-    Optional<Director> find(int id);
+    int insert(DirectorDTO directorDTO);
+    Optional<DirectorDTO> find(int id);
 
-    void update(Director director);
+    void update(DirectorDTO directorDTO);
 
     void delete(int id);
 

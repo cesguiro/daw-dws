@@ -58,9 +58,9 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public int insert(Movie movie) {
+    public int insert(MovieDTO movieDTO) {
         try (Connection connection = DBUtil.open(false)){
-            MovieEntity movieEntity = MovieMapper.mapper.toMovieEntity(movie);
+            MovieEntity movieEntity = MovieMapper.mapper.toMovieEntity(movieDTO);
             int id = movieDAO.insert(connection, movieEntity);
             return id;
 

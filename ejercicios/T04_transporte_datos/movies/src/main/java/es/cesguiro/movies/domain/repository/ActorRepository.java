@@ -1,18 +1,17 @@
 package es.cesguiro.movies.domain.repository;
 
-import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.dto.ActorDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ActorRepository {
-    int insert(Actor actor);
-    Optional<Actor> find(int id);
+    int insert(ActorDTO actorDTO);
+    Optional<ActorDTO> find(int id);
 
     List<ActorDTO> findByMovieId(int movieId);
 
-    void update(Actor actor);
+    void update(ActorDTO actorDTO);
 
     void delete(int id);
 }

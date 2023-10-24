@@ -21,17 +21,25 @@ public interface DirectorMapper {
 
     DirectorMapper mapper = Mappers.getMapper(DirectorMapper.class);
 
-    Director toDirector(DirectorCreateWeb directorCreateWeb);
-    Director toDirector(DirectorUpdateWeb directorUpdateWeb);
-    DirectorDetailWeb toDirectorDetailWeb(Director director);
-    DirectorEntity toDirectorEntity(Director director);
     @Mapping(target = "id", expression = "java(resultSet.getInt(\"id\"))")
     @Mapping(target = "name", expression = "java(resultSet.getString(\"name\"))")
     @Mapping(target = "birthYear", expression = "java(resultSet.getInt(\"birthYear\"))")
     @Mapping(target = "deathYear", expression = "java(resultSet.getInt(\"deathYear\"))")
     DirectorEntity toDirectorEntity(ResultSet resultSet) throws SQLException;
-    Director toDirector(DirectorEntity directorEntity);
 
     DirectorDTO toDirectorDTO(DirectorEntity directorEntity);
     DirectorListWeb toDirectorListWeb(DirectorDTO directorDTO);
+
+    DirectorDetailWeb toDirectorDetailWeb(DirectorDTO directorDTO);
+
+    Director toDirector(DirectorDTO directorDTO);
+
+    DirectorDTO toDirectorDTO(DirectorCreateWeb directorCreateWeb);
+
+    DirectorDTO toDirectorDTO(DirectorUpdateWeb directorUpdateWeb);
+
+
+    DirectorDTO toDirectorDTO(Director director);
+
+    DirectorEntity toDirectorEntity(DirectorDTO directorDTO);
 }
