@@ -81,4 +81,32 @@ public class MovieDAO {
         final String SQL = "INSERT INTO actors_movies (actor_id, movie_id) VALUES (?, ?)";
         DBUtil.insert(connection, SQL, List.of(actorId, movieId));
     }
+
+    public void update(Connection connection, MovieEntity movieEntity) throws SQLException{
+        try {
+            final String SQL = "UPDATE movies SET title = ?, year = ?, runtime = ?, director_id = ? WHERE id = ?";
+            List<Object> params = new ArrayList<>();
+            params.add(movieEntity.getTitle());
+            params.add(movieEntity.getYear());
+            params.add(movieEntity.getRuntime());
+            params.add(movieEntity.getDirectorId());
+            params.add(movieEntity.getId());
+            int id = DBUtil.update(connection, SQL, params);
+            //Borramos los actores
+            this.deleteAllActors(connection, movieEntity.getId());
+            //insertar los actores
+            movieEntity.getActorIds().stream()
+                    .forEach(actorId -> addActor(connection, id, actorId));
+            //.forEach(actorId -> addActor(connection, 0, actorId));
+            connection.commit();
+        } catch (Exception e) {
+            connection.rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void deleteAllActors(Connection connection, int id) {
+        final String SQL = "DELTE FROM actors_movies WHERE movie_id = ?";
+        DBUtil.delete(connection, SQL, List.of(id));
+    }
 }

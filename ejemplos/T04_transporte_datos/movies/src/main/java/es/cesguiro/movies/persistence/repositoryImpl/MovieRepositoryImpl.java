@@ -68,5 +68,16 @@ public class MovieRepositoryImpl implements MovieRepository {
         }
     }
 
+    @Override
+    public void update(Movie movie) {
+        try (Connection connection = DBUtil.open(false)){
+            MovieEntity movieEntity = MovieMapper.mapper.toMovieEntity(movie);
+            movieDAO.update(connection, movieEntity);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
 }

@@ -3,6 +3,7 @@ package es.cesguiro.movies.mapper;
 import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
+import es.cesguiro.movies.controller.model.movie.MovieUpdateWeb;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.persistence.model.MovieEntity;
@@ -47,4 +48,7 @@ public interface MovieMapper {
                 .toList();
     }
 
+    @Mapping(target = "director", ignore = true)
+    @Mapping(target = "actors", ignore = true)
+    Movie toMovie(MovieUpdateWeb movieUpdateWeb);
 }

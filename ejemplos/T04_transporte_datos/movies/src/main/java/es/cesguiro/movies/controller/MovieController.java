@@ -2,6 +2,7 @@ package es.cesguiro.movies.controller;
 
 import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
+import es.cesguiro.movies.controller.model.movie.MovieUpdateWeb;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.domain.service.MovieService;
@@ -68,4 +69,10 @@ public class MovieController {
         return Response.builder().data(movieListWeb).build();
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("{/id}")
+    public void update(@PathVariable("id") int id, @RequestBody MovieUpdateWeb movieUpdateWeb) {
+        movieUpdateWeb.setId(id);
+        movieService.update(MovieMapper.mapper.toMovie(movieUpdateWeb), movieUpdateWeb.getDirectorId(), movieUpdateWeb.getActorIds());
+    }
 }

@@ -1,5 +1,6 @@
 package es.cesguiro.movies.domain.repository;
 
+import es.cesguiro.movies.controller.model.movie.MovieUpdateWeb;
 import es.cesguiro.movies.domain.entity.Movie;
 import org.springframework.stereotype.Component;
 
@@ -16,4 +17,6 @@ public interface MovieRepository {
     int getTotalNumberOfRecords();
 
     int insert(Movie movie);
+
+    void update(Movie movie);
 }
