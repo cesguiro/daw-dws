@@ -4,10 +4,14 @@ import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
+import es.cesguiro.movies.dto.ActorDTO;
+import es.cesguiro.movies.dto.DirectorDTO;
+import es.cesguiro.movies.dto.MovieDTO;
 import es.cesguiro.movies.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.repository.ActorRepository;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
 import es.cesguiro.movies.domain.repository.MovieRepository;
+import es.cesguiro.movies.mapper.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,28 +30,38 @@ public class MovieServiceImpl implements MovieService {
     private ActorRepository actorRepository;
 
     @Override
-    public List<Movie> getAll(Integer page, Integer pageSize) {
+    public List<MovieDTO> getAll(Integer page, Integer pageSize) {
         return movieRepository.getAll(page, pageSize);
+
+        /*Si necesitáramos crear entidades Movie (por si hay campos calculados, por ejemplo):
+        /*List<MovieDTO> movieDTOs = movieRepository.getAll(page, pageSize);
+        List<Movie> movies = movieDTOs.stream()
+                .map(MovieMapper.mapper::toMovie)
+                .toList();
+        return movies.stream()
+                .map(MovieMapper.mapper::toMovieDTO)
+                .toList();
+         */
     }
 
     @Override
-    public List<Movie> getAll() {
+    public List<MovieDTO> getAll() {
         return  movieRepository.getAll(null, null);
     }
 
 
     @Override
-    public Movie find(int id) {
-        Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
+    public MovieDTO find(int id) {
+        MovieDTO movieDTO = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
 
-        Director director = directorRepository.findByMovieId(id).orElse(null);
-        movie.setDirector(director);
+        DirectorDTO directorDTO = directorRepository.findByMovieId(id).orElse(null);
+        movieDTO.setDirectorDTO(directorDTO);
 
-        List<Actor> actors = actorRepository.findByMovieId(id);
+        List<ActorDTO> actorDTOs = actorRepository.findByMovieId(id);
 
-        movie.setActors(actors);
+        movieDTO.setActorDTOs(actorDTOs);
 
-        return movie;
+        return movieDTO;
     }
 
     @Override

@@ -5,6 +5,7 @@ import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.Movie;
+import es.cesguiro.movies.dto.MovieDTO;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -47,4 +48,10 @@ public interface MovieMapper {
                 .toList();
     }
 
+    MovieDTO toMovieDTO(MovieEntity movieEntity);
+    Movie toMovie(MovieDTO movieDTO);
+    MovieDTO toMovieDTO(Movie movie);
+
+    MovieListWeb toMovieListWeb(MovieDTO movieDTO);
+    MovieDetailWeb toMovieDetailWeb(MovieDTO movieDTO);
 }

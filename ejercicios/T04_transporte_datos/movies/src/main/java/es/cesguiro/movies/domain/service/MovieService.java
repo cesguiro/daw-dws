@@ -1,16 +1,17 @@
 package es.cesguiro.movies.domain.service;
 
 import es.cesguiro.movies.domain.entity.Movie;
+import es.cesguiro.movies.dto.MovieDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface MovieService {
-    List<Movie> getAll(Integer page, Integer pageSize);
-    List<Movie> getAll();
+    List<MovieDTO> getAll(Integer page, Integer pageSize);
+    List<MovieDTO> getAll();
 
-    Movie find(int id);
+    MovieDTO find(int id);
 
     int getTotalNumberOfRecords();
 

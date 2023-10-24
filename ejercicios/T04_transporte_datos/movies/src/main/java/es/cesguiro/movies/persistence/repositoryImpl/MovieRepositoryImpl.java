@@ -3,6 +3,7 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.repository.MovieRepository;
+import es.cesguiro.movies.dto.MovieDTO;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.persistence.dao.MovieDAO;
 import es.cesguiro.movies.persistence.model.MovieEntity;
@@ -21,13 +22,13 @@ public class MovieRepositoryImpl implements MovieRepository {
     MovieDAO movieDAO;
 
     @Override
-    public List<Movie> getAll(Integer page, Integer pageSize) {
+    public List<MovieDTO> getAll(Integer page, Integer pageSize) {
         try(Connection connection = DBUtil.open(true)) {
             List<MovieEntity> movieEntities = movieDAO.findAll(connection, page, pageSize);
-            List<Movie> movies = movieEntities.stream()
-                    .map(movieEntity -> MovieMapper.mapper.toMovie(movieEntity))
+            List<MovieDTO> movieDTOs = movieEntities.stream()
+                    .map(MovieMapper.mapper::toMovieDTO)
                     .toList();
-            return movies;
+            return movieDTOs;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -35,13 +36,13 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Optional<Movie> find(int id) {
+    public Optional<MovieDTO> find(int id) {
         try (Connection connection = DBUtil.open(true)){
             Optional<MovieEntity> movieEntity = movieDAO.find(connection, id);
             if(movieEntity.isEmpty()) {
                 return Optional.empty();
             }
-            return Optional.of(MovieMapper.mapper.toMovie(movieEntity.get()));
+            return Optional.of(MovieMapper.mapper.toMovieDTO(movieEntity.get()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

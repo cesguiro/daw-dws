@@ -3,6 +3,7 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.repository.ActorRepository;
+import es.cesguiro.movies.dto.ActorDTO;
 import es.cesguiro.movies.mapper.ActorMapper;
 import es.cesguiro.movies.persistence.dao.ActorDAO;
 import es.cesguiro.movies.persistence.model.ActorEntity;
@@ -43,13 +44,13 @@ public class ActorRepositoryImpl implements ActorRepository {
     }
 
     @Override
-    public List<Actor> findByMovieId(int movieId) {
+    public List<ActorDTO> findByMovieId(int movieId) {
         try (Connection connection= DBUtil.open(true)){
             List<ActorEntity> actorEntities = actorDAO.findByMovieId(connection, movieId);
-            List<Actor> actors = actorEntities.stream()
-                    .map(actorEntity -> ActorMapper.mapper.toActor(actorEntity))
+            List<ActorDTO> actorDTOs = actorEntities.stream()
+                    .map(ActorMapper.mapper::toActorDTO)
                     .toList();
-            return actors;
+            return actorDTOs;
         } catch (SQLException e) {
             throw new RuntimeException();
         }

@@ -1,6 +1,7 @@
 package es.cesguiro.movies.domain.repository;
 
 import es.cesguiro.movies.domain.entity.Director;
+import es.cesguiro.movies.dto.DirectorDTO;
 
 import java.util.Optional;
 
@@ -12,5 +13,5 @@ public interface DirectorRepository {
 
     void delete(int id);
 
-    Optional<Director> findByMovieId(int movieId);
+    Optional<DirectorDTO> findByMovieId(int movieId);
 }

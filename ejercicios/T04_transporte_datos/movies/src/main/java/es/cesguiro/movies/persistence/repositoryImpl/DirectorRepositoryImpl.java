@@ -3,6 +3,7 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 import es.cesguiro.movies.db.DBUtil;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
+import es.cesguiro.movies.dto.DirectorDTO;
 import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.persistence.dao.DirectorDAO;
@@ -65,13 +66,13 @@ public class DirectorRepositoryImpl implements DirectorRepository {
     }
 
     @Override
-    public Optional<Director> findByMovieId(int movieId) {
+    public Optional<DirectorDTO> findByMovieId(int movieId) {
         try(Connection connection= DBUtil.open(true)) {
             Optional<DirectorEntity> directorEntity = directorDAO.findByMovieId(connection, movieId);
             if(directorEntity.isEmpty()) {
                 return Optional.empty();
             }
-            return Optional.of(DirectorMapper.mapper.toDirector(directorEntity.get()));
+            return Optional.of(DirectorMapper.mapper.toDirectorDTO(directorEntity.get()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
