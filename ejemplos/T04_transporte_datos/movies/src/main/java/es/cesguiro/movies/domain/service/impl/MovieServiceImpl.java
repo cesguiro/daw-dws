@@ -40,12 +40,12 @@ public class MovieServiceImpl implements MovieService {
     public Movie find(int id) {
         Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
 
-        Director director = directorRepository.findByMovieId(id).orElse(null);
+        /*Director director = directorRepository.findByMovieId(id).orElse(null);
         movie.setDirector(director);
 
         List<Actor> actors = actorRepository.findByMovieId(id);
 
-        movie.setActors(actors);
+        movie.setActors(actors);*/
 
         return movie;
     }

@@ -1,10 +1,7 @@
 package es.cesguiro.movies.domain.entity;
 
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@NoArgsConstructor
 public class Movie {
 
     private int id;
@@ -13,6 +10,10 @@ public class Movie {
     private int runtime;
     private Director director;
     private List<Actor> actors;
+
+    public Movie(){
+
+    }
 
     public Movie(int id, String title, int year, int runtime) {
         this.id = id;

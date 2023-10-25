@@ -1,5 +1,6 @@
 package es.cesguiro.movies.controller.model.movie;
 
+import es.cesguiro.movies.controller.model.character.CharacterCreateWeb;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +16,5 @@ public class MovieCreateWeb {
     private int year;
     private int runtime;
     private int directorId;
-    private List<Integer> actorIds;
+    private List<CharacterCreateWeb> characterCreateWebs;
 }
