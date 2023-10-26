@@ -57,7 +57,7 @@ public class MovieDAO {
     }
 
     public int insert(Connection connection, MovieEntity movieEntity) throws SQLException {
-        try {
+        /*try {
             final String SQL = "INSERT INTO movies (title, year, runtime, director_id) VALUES (?, ?, ?, ?)";
             List<Object> params = new ArrayList<>();
             params.add(movieEntity.getTitle());
@@ -74,7 +74,8 @@ public class MovieDAO {
         } catch (Exception e) {
             connection.rollback();
             throw new RuntimeException(e);
-        }
+        }*/
+        return 1;
     }
 
     public void addActor(Connection connection, int movieId, int actorId) {
@@ -83,7 +84,7 @@ public class MovieDAO {
     }
 
     public void update(Connection connection, MovieEntity movieEntity) throws SQLException{
-        try {
+        /*try {
             final String SQL = "UPDATE movies SET title = ?, year = ?, runtime = ?, director_id = ? WHERE id = ?";
             List<Object> params = new ArrayList<>();
             params.add(movieEntity.getTitle());
@@ -102,7 +103,7 @@ public class MovieDAO {
         } catch (Exception e) {
             connection.rollback();
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     private void deleteAllActors(Connection connection, int id) {

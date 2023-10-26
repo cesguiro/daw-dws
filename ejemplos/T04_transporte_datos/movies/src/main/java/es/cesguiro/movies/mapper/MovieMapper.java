@@ -28,6 +28,8 @@ public interface MovieMapper {
     @Mapping(target = "year", expression = "java(resultSet.getInt(\"year\"))")
     @Mapping(target = "runtime", expression = "java(resultSet.getInt(\"runtime\"))")
     MovieEntity toMovieEntity(ResultSet resultSet) throws SQLException;
+
+    @Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")
     Movie toMovie(MovieEntity movieEntity);
 
     @Mapping(target = "director", ignore = true)
@@ -35,9 +37,10 @@ public interface MovieMapper {
     Movie toMovie(MovieCreateWeb movieCreateWeb);
 
 
-    @Mapping(target = "directorId", expression = "java(movie.getDirector().getId())")
-    @Mapping(target = "actorIds", expression = "java(mapActorsToActorIds(movie.getActors()))")
+    /*@Mapping(target = "director", expression = "java(movie.getDirector().getId())")
+    @Mapping(target = "actorIds", expression = "java(mapActorsToActorIds(movie.getActors()))")*/
     MovieEntity toMovieEntity(Movie movie);
+
 
     @Named("actorToActorIds")
     default List<Integer> mapActorsToActorIds(List<Actor> actors) {

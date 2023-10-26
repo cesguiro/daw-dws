@@ -9,6 +9,7 @@ import es.cesguiro.movies.mapper.ActorMapper;
 import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.persistence.dao.ActorDAO;
+import es.cesguiro.movies.persistence.dao.CharacterDAO;
 import es.cesguiro.movies.persistence.dao.DirectorDAO;
 import es.cesguiro.movies.persistence.dao.MovieDAO;
 import es.cesguiro.movies.persistence.model.ActorEntity;
@@ -32,7 +33,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     DirectorDAO directorDAO;
 
     @Autowired
-    ActorDAO actorDAO;
+    CharacterDAO characterDAO;
 
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
@@ -51,11 +52,13 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public Optional<Movie> find(int id) {
         try (Connection connection = DBUtil.open(true)){
-            Optional<MovieEntity> movieEntity = movieDAO.find(connection, id);
-            if(movieEntity.isEmpty()) {
-                return Optional.empty();
+            MovieEntity movieEntity = movieDAO.find(connection, id).get();
+            if(movieEntity != null) {
+                movieEntity.getDirectorEntity(connection, directorDAO);
+                movieEntity.getCharacterEntities(connection, characterDAO);
+                //return Optional.empty();
             }
-            DirectorEntity directorEntity = directorDAO.findByMovieId(connection, id).orElse(null);
+            /*DirectorEntity directorEntity = directorDAO.findByMovieId(connection, id).orElse(null);
             List<ActorEntity> actorEntities = actorDAO.findByMovieId(connection, id);
             Director director = DirectorMapper.mapper.toDirector(directorEntity);
             List<Actor> actors = actorEntities.stream()
@@ -65,8 +68,8 @@ public class MovieRepositoryImpl implements MovieRepository {
             if(movie != null) {
                 movie.setDirector(director);
                 movie.setActors(actors);
-            }
-            return Optional.ofNullable(movie);
+            }*/
+            return Optional.ofNullable(MovieMapper.mapper.toMovie(movieEntity));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

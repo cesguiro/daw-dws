@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CharacterCreateWeb {
+public class CharacterListWeb {
 
     int actorId;
     String[] characters;

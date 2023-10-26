@@ -1,6 +1,7 @@
 package es.cesguiro.movies.persistence.dao;
 
 import es.cesguiro.movies.db.DBUtil;
+import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.mapper.ActorMapper;
 import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.persistence.model.ActorEntity;
@@ -37,5 +38,19 @@ public class ActorDAO {
         } catch (SQLException e) {
             throw new RuntimeException();
         }
+    }
+
+    public Optional<ActorEntity> findByCharacterId(Connection connection, int characterId) {
+        final String SQL = """
+                SELECT a.* FROM actors a
+                INNER JOIN actors_movies am ON am.actor_id = a.id AND am.id = ?
+            """;
+        try {
+            ResultSet resultSet = DBUtil.select(connection, SQL, List.of(characterId));
+            return Optional.of(resultSet.next()? ActorMapper.mapper.toActorEntity(resultSet):null);
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+
     }
 }
