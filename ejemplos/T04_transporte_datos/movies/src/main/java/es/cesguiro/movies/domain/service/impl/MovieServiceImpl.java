@@ -65,7 +65,7 @@ public class MovieServiceImpl implements MovieService {
                 )
                 .toList();
         movie.setDirector(director);
-        movie.setActors(actors);
+        //movie.setActors(actors);
         return movieRepository.insert(movie);
     }
 
@@ -80,7 +80,7 @@ public class MovieServiceImpl implements MovieService {
                 )
                 .toList();
         movie.setDirector(director);
-        movie.setActors(actors);
+        //movie.setActors(actors);
         movieRepository.update(movie);
     }
 }

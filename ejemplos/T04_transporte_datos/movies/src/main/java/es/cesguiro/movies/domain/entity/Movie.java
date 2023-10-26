@@ -9,7 +9,7 @@ public class Movie {
     private int year;
     private int runtime;
     private Director director;
-    private List<Actor> actors;
+    private List<Character> characters;
 
     public Movie(){
 
@@ -69,12 +69,12 @@ public class Movie {
         this.director = director;
     }
 
-    public List<Actor> getActors() {
-        return actors;
+    public List<Character> getCharacters() {
+        return characters;
     }
 
-    public void setActors(List<Actor> actors) {
-        this.actors = actors;
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Movie {
                 ", runtime=" + runtime +
                 ", year=" + year +
                 ", director=" + director +
-                ", actors=" + actors +
+                ", characters=" + characters +
                 '}';
     }
 }
