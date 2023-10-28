@@ -1,6 +1,6 @@
 package es.cesguiro.movies.domain.entity;
 
-public class Character {
+public class CharacterMovie {
 
     int id;
     Actor actor;

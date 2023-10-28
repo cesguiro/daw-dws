@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,19 @@ public class CharacterDAO {
                 return null;
             }
             do {
+                //System.out.println(resultSet.getObject("characters"));
+                /*CharacterEntity characterEntity = new CharacterEntity(
+                        resultSet.getInt("id"),
+                        resultSet.getString("characters")
+                                /*.replace("[", "")
+                                .replace("]", "")
+                                .replace("\"", "")
+                                .replace("'", "")*/
+                        //resultSet.getArray("characters").toString()
+                        //resultSet.getString("characters")
+                //);
                 characterEntities.add(CharacterMapper.mapper.toCharacterEntity(resultSet));
+                //characterEntities.add(characterEntity);
             } while (resultSet.next());
             return characterEntities;
         } catch (SQLException e) {

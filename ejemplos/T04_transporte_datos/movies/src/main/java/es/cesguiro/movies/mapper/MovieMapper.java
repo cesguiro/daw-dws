@@ -4,6 +4,7 @@ import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Actor;
+import es.cesguiro.movies.domain.entity.CharacterMovie;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.persistence.model.CharacterEntity;
 import es.cesguiro.movies.persistence.model.MovieEntity;
@@ -31,18 +32,18 @@ public interface MovieMapper {
     MovieEntity toMovieEntity(ResultSet resultSet) throws SQLException;
 
     @Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")
-    @Mapping(target = "characters", expression = "java(mapCharacterEntitiesToCharacters(movieEntity.getCharacters())")
+    @Mapping(target = "characters", expression = "java(mapCharacterEntitiesToCharacters(movieEntity.getCharacterEntities()))")
     Movie toMovie(MovieEntity movieEntity);
 
     @Named("characterEntitiesToCharacters")
-    default List<Character> mapCharacterEntitiesToCharacters(List<CharacterEntity> characterEntities) {
+    default List<CharacterMovie> mapCharacterEntitiesToCharacters(List<CharacterEntity> characterEntities) {
         return characterEntities.stream()
-                .map(CharacterMapper.mapper::toCharacter)
+                .map(CharacterMapper.mapper::toCharacterMovie)
                 .toList();
     }
 
     @Mapping(target = "director", ignore = true)
-    @Mapping(target = "actors", ignore = true)
+    @Mapping(target = "characters", ignore = true)
     Movie toMovie(MovieCreateWeb movieCreateWeb);
 
 

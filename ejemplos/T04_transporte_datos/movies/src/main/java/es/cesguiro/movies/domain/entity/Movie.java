@@ -9,7 +9,7 @@ public class Movie {
     private int year;
     private int runtime;
     private Director director;
-    private List<Character> characters;
+    private List<CharacterMovie> characters;
 
     public Movie(){
 
@@ -69,11 +69,11 @@ public class Movie {
         this.director = director;
     }
 
-    public List<Character> getCharacters() {
+    public List<CharacterMovie> getCharacters() {
         return characters;
     }
 
-    public void setCharacters(List<Character> characters) {
+    public void setCharacters(List<CharacterMovie> characters) {
         this.characters = characters;
     }
 
