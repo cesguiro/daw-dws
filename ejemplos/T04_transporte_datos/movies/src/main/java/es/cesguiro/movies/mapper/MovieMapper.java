@@ -1,12 +1,13 @@
 package es.cesguiro.movies.mapper;
 
+import es.cesguiro.movies.controller.model.character.CharacterMovieListWeb;
 import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.CharacterMovie;
 import es.cesguiro.movies.domain.entity.Movie;
-import es.cesguiro.movies.persistence.model.CharacterEntity;
+import es.cesguiro.movies.persistence.model.CharacterMovieEntity;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,7 +25,18 @@ public interface MovieMapper {
     MovieMapper mapper = Mappers.getMapper(MovieMapper.class);
 
     MovieListWeb toMovieListWeb(Movie movie);
+
+    @Mapping(target = "characterMovies", expression = "java(mapCharacterMoviesToCharacterMovieListWeb(movie.getCharacterMovies()))")
     MovieDetailWeb toMovieDetailWeb(Movie movie);
+
+    @Named("characterMoviesToCharacterMovieListWeb")
+    default List<CharacterMovieListWeb> mapCharacterMoviesToCharacterMovieListWeb(List<CharacterMovie> characterMovies) {
+        return characterMovies.stream()
+                .map(CharacterMovieMapper.mapper::toCharacterMovieListWeb)
+                .toList();
+    }
+
+
     @Mapping(target = "id", expression = "java(resultSet.getInt(\"id\"))")
     @Mapping(target = "title", expression = "java(resultSet.getString(\"title\"))")
     @Mapping(target = "year", expression = "java(resultSet.getInt(\"year\"))")
@@ -32,23 +44,24 @@ public interface MovieMapper {
     MovieEntity toMovieEntity(ResultSet resultSet) throws SQLException;
 
     @Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")
-    @Mapping(target = "characters", expression = "java(mapCharacterEntitiesToCharacters(movieEntity.getCharacterEntities()))")
+    @Mapping(target = "characterMovies", expression = "java(mapCharacterMovieEntitiesToCharacterMovies(movieEntity.getCharacterMovieEntities()))")
     Movie toMovie(MovieEntity movieEntity);
 
     @Named("characterEntitiesToCharacters")
-    default List<CharacterMovie> mapCharacterEntitiesToCharacters(List<CharacterEntity> characterEntities) {
-        return characterEntities.stream()
-                .map(CharacterMapper.mapper::toCharacterMovie)
+    default List<CharacterMovie> mapCharacterMovieEntitiesToCharacterMovies(List<CharacterMovieEntity> characterMovieEntities) {
+        if(characterMovieEntities == null) {
+            return null;
+        }
+        return characterMovieEntities.stream()
+                .map(CharacterMovieMapper.mapper::toCharacterMovie)
                 .toList();
     }
 
     @Mapping(target = "director", ignore = true)
-    @Mapping(target = "characters", ignore = true)
+    @Mapping(target = "characterMovies", ignore = true)
     Movie toMovie(MovieCreateWeb movieCreateWeb);
 
 
-    /*@Mapping(target = "director", expression = "java(movie.getDirector().getId())")
-    @Mapping(target = "actorIds", expression = "java(mapActorsToActorIds(movie.getActors()))")*/
     MovieEntity toMovieEntity(Movie movie);
 
 
@@ -59,7 +72,4 @@ public interface MovieMapper {
                 .toList();
     }
 
-    /*@Mapping(target = "director", ignore = true)
-    @Mapping(target = "actors", ignore = true)
-    Movie toMovie(MovieUpdateWeb movieUpdateWeb);*/
 }

@@ -1,6 +1,7 @@
 package es.cesguiro.movies.domain.service.impl;
 
 import es.cesguiro.movies.domain.entity.Actor;
+import es.cesguiro.movies.domain.entity.CharacterMovie;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.service.MovieService;
@@ -11,7 +12,9 @@ import es.cesguiro.movies.domain.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -56,16 +59,17 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public int create(Movie movie, int directorId, List<Integer> actorIds) {
+    public int create(Movie movie, int directorId, Map<Integer, String> characters) {
         Director director = directorRepository.find(directorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + directorId));
-        List<Actor> actors = actorIds.stream()
+        List<Actor> actors = characters.keySet().stream()
                 .map(actorId -> actorRepository.find(actorId)
                         .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + actorId))
                 )
                 .toList();
         movie.setDirector(director);
-        //movie.setActors(actors);
+        List<CharacterMovie> characterMovies = new ArrayList<>();
+
         return movieRepository.insert(movie);
     }
 

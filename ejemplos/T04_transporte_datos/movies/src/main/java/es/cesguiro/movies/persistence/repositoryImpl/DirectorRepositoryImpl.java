@@ -42,6 +42,7 @@ public class DirectorRepositoryImpl implements DirectorRepository {
             }
             return Optional.of(DirectorMapper.mapper.toDirector(directorEntity.get()));
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }

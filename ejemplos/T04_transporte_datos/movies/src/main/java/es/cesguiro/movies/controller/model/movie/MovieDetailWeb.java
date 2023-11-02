@@ -1,6 +1,6 @@
 package es.cesguiro.movies.controller.model.movie;
 
-import es.cesguiro.movies.controller.model.character.CharacterListWeb;
+import es.cesguiro.movies.controller.model.character.CharacterMovieListWeb;
 import es.cesguiro.movies.controller.model.director.DirectorListWeb;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +18,5 @@ public class MovieDetailWeb {
     private int year;
     private int runtime;
     private DirectorListWeb director;
-    private List<CharacterListWeb> characters;
+    private List<CharacterMovieListWeb> characterMovies;
 }

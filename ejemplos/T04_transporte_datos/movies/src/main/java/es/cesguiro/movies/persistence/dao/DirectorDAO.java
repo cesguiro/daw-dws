@@ -31,7 +31,7 @@ public class DirectorDAO {
         final String SQL = "SELECT * FROM directors WHERE id = ? LIMIT 1";
         try {
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            return Optional.of(resultSet.next()? DirectorMapper.mapper.toDirectorEntity(resultSet):null);
+            return Optional.ofNullable(resultSet.next()? DirectorMapper.mapper.toDirectorEntity(resultSet):null);
         } catch (SQLException e) {
             throw new RuntimeException();
         }
@@ -63,7 +63,7 @@ public class DirectorDAO {
         """;
         try{
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(movieId));
-            return Optional.of(resultSet.next()? DirectorMapper.mapper.toDirectorEntity(resultSet):null);
+            return Optional.ofNullable(resultSet.next()? DirectorMapper.mapper.toDirectorEntity(resultSet):null);
         } catch (SQLException e) {
             throw new RuntimeException();
         }

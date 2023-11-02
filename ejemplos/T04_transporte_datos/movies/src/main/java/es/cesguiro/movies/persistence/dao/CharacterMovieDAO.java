@@ -1,23 +1,21 @@
 package es.cesguiro.movies.persistence.dao;
 
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.mapper.ActorMapper;
-import es.cesguiro.movies.mapper.CharacterMapper;
-import es.cesguiro.movies.persistence.model.CharacterEntity;
+import es.cesguiro.movies.mapper.CharacterMovieMapper;
+import es.cesguiro.movies.persistence.model.CharacterMovieEntity;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CharacterDAO {
+public class CharacterMovieDAO {
 
-    public List<CharacterEntity> findByMovieId(Connection connection, int movieId) {
-        List<CharacterEntity> characterEntities = new ArrayList<>();
+    public List<CharacterMovieEntity> findByMovieId(Connection connection, int movieId) {
+        List<CharacterMovieEntity> characterMovieEntities = new ArrayList<>();
         final String SQL = """
                 SELECT c.* FROM actors_movies c
                 INNER JOIN movies m ON m.id = c.movie_id AND m.id = ?
@@ -39,10 +37,10 @@ public class CharacterDAO {
                         //resultSet.getArray("characters").toString()
                         //resultSet.getString("characters")
                 //);
-                characterEntities.add(CharacterMapper.mapper.toCharacterEntity(resultSet));
+                characterMovieEntities.add(CharacterMovieMapper.mapper.toCharacterMovieEntity(resultSet));
                 //characterEntities.add(characterEntity);
             } while (resultSet.next());
-            return characterEntities;
+            return characterMovieEntities;
         } catch (SQLException e) {
             throw new RuntimeException();
         }

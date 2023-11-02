@@ -1,19 +1,13 @@
 package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.domain.entity.Actor;
-import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.repository.MovieRepository;
-import es.cesguiro.movies.mapper.ActorMapper;
-import es.cesguiro.movies.mapper.DirectorMapper;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.persistence.dao.ActorDAO;
-import es.cesguiro.movies.persistence.dao.CharacterDAO;
+import es.cesguiro.movies.persistence.dao.CharacterMovieDAO;
 import es.cesguiro.movies.persistence.dao.DirectorDAO;
 import es.cesguiro.movies.persistence.dao.MovieDAO;
-import es.cesguiro.movies.persistence.model.ActorEntity;
-import es.cesguiro.movies.persistence.model.DirectorEntity;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,7 +27,10 @@ public class MovieRepositoryImpl implements MovieRepository {
     DirectorDAO directorDAO;
 
     @Autowired
-    CharacterDAO characterDAO;
+    CharacterMovieDAO characterMovieDAO;
+
+    @Autowired
+    ActorDAO actorDAO;
 
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
@@ -55,8 +52,8 @@ public class MovieRepositoryImpl implements MovieRepository {
             MovieEntity movieEntity = movieDAO.find(connection, id).get();
             if(movieEntity != null) {
                 movieEntity.getDirectorEntity(connection, directorDAO);
-                movieEntity.getCharacterEntities(connection, characterDAO);
-                //return Optional.empty();
+                movieEntity.getCharacterEntities(connection, characterMovieDAO).forEach(CharacterMovieEntity -> CharacterMovieEntity.getActorEntity(connection, actorDAO));
+                //movieEntity.getCharacterEntities().forEach(CharacterEntity -> CharacterEntity.getActor(connection, actorDAO));
             }
             /*DirectorEntity directorEntity = directorDAO.findByMovieId(connection, id).orElse(null);
             List<ActorEntity> actorEntities = actorDAO.findByMovieId(connection, id);

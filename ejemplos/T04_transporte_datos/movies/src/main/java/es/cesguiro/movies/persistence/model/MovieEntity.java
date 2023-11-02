@@ -1,9 +1,7 @@
 package es.cesguiro.movies.persistence.model;
 
-import es.cesguiro.movies.persistence.dao.ActorDAO;
-import es.cesguiro.movies.persistence.dao.CharacterDAO;
+import es.cesguiro.movies.persistence.dao.CharacterMovieDAO;
 import es.cesguiro.movies.persistence.dao.DirectorDAO;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +19,7 @@ public class MovieEntity {
     private int year;
     private int runtime;
     private DirectorEntity directorEntity;
-    private List<CharacterEntity> characterEntities;
+    private List<CharacterMovieEntity> characterMovieEntities;
 
 
     public MovieEntity(int id, String title, int year, int runtime) {
@@ -38,11 +36,11 @@ public class MovieEntity {
         return this.directorEntity;
     }
 
-    public List<CharacterEntity> getCharacterEntities(Connection connection, CharacterDAO characterDAO) {
-        if(this.characterEntities == null) {
-            this.characterEntities = characterDAO.findByMovieId(connection, id);
+    public List<CharacterMovieEntity> getCharacterEntities(Connection connection, CharacterMovieDAO characterMovieDAO) {
+        if(this.characterMovieEntities == null) {
+            this.characterMovieEntities = characterMovieDAO.findByMovieId(connection, id);
         }
-        return this.characterEntities;
+        return this.characterMovieEntities;
     }
 
 

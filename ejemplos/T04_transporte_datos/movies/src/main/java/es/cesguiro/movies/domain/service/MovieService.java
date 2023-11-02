@@ -4,6 +4,7 @@ import es.cesguiro.movies.domain.entity.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface MovieService {
@@ -14,7 +15,7 @@ public interface MovieService {
 
     int getTotalNumberOfRecords();
 
-    int create(Movie movie, int directorId, List<Integer> actorIds);
+    int create(Movie movie, int directorId, Map<Integer, String> characters);
 
     void update(Movie movie, int directorId, List<Integer> actorIds);
 }
