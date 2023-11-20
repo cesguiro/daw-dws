@@ -28,12 +28,16 @@ public class MovieEntity {
     @JoinColumn(name = "director_id")
     private DirectorEntity directorEntity;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "movie_id")
+    private List<CharacterMovieEntity> characterMovieEntities;
+
+    /*@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "actors_movies",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private List<ActorEntity> actorEntities;
+    private List<ActorEntity> actorEntities;*/
 
 }

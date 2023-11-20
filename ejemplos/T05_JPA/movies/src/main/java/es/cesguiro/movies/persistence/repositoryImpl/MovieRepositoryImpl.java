@@ -7,11 +7,9 @@ import es.cesguiro.movies.persistence.dao.MovieDAO;
 import es.cesguiro.movies.persistence.model.MovieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.awt.print.Pageable;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +24,17 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
+        List<MovieEntity> movieEntities;
         //return movieDAO.findAll().stream().map(MovieMapper.mapper::toMovie).toList();
-        return MovieMapper.mapper.toMovieList(movieDAO.findAll());
+        if(page != null && page > 0) {
+            Pageable pageable = PageRequest.of(page - 1, pageSize);
+            movieEntities = movieDAO.findAll(pageable).stream().toList();
+        } else {
+            movieEntities = movieDAO.findAll();
+
+        }
+        //return MovieMapper.mapper.toMovieList(movieDAO.findAll());
+        return MovieMapper.mapper.toMovieList(movieEntities);
     }
 
     @Override
