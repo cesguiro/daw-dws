@@ -36,7 +36,7 @@ public class MovieController {
         pageSize = (pageSize != null)? pageSize : PAGE_SIZE;
         List<Movie> movies = (page != null)? movieService.getAll(page, pageSize) : movieService.getAll();
         List<MovieListWeb> moviesWeb = movies.stream()
-                .map(movie -> MovieMapper.mapper.toMovieListWeb(movie))
+                .map(MovieMapper.mapper::toMovieListWeb)
                 .toList();
         long totalRecords = movieService.getTotalNumberOfRecords();
         Response response = Response.builder()
