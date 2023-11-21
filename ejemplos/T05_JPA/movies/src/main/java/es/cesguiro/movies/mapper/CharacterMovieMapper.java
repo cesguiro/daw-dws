@@ -12,27 +12,32 @@ import org.mapstruct.factory.Mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 @Mapper(componentModel = "spring")
 public interface CharacterMovieMapper {
 
-    /*CharacterMovieMapper mapper = Mappers.getMapper(CharacterMovieMapper.class);
+    CharacterMovieMapper mapper = Mappers.getMapper(CharacterMovieMapper.class);
 
-    @Mapping(target = "actor", expression = "java(mapActorEntityToActor(characterMovieEntity.getActorEntity()))")
+    @Mapping(target = "actor", expression = "java(ActorMapper.mapper.toActor(characterMovieEntity.getActorEntity()))")
     CharacterMovie toCharacterMovie(CharacterMovieEntity characterMovieEntity);
 
-    @Named("actorEntityToActor")
+    List<CharacterMovie> toCharacterMovies(List<CharacterMovieEntity> characterMovieEntities);
+
+    /*@Named("actorEntityToActor")
     default Actor mapActorEntityToActor(ActorEntity actorEntity) {
         return ActorMapper.mapper.toActor(actorEntity);
     }
 
     @Mapping(target = "id", expression = "java(resultSet.getInt(\"id\"))")
     @Mapping(target = "characters", expression = "java(resultSet.getString(\"characters\"))")
-    CharacterMovieEntity toCharacterMovieEntity(ResultSet resultSet) throws SQLException;
+    CharacterMovieEntity toCharacterMovieEntity(ResultSet resultSet) throws SQLException;*/
 
     @Mapping(target = "actorId", expression="java(characterMovie.getActor().getId())")
     @Mapping(target = "actorName", expression="java(characterMovie.getActor().getName())")
-    CharacterMovieListWeb toCharacterMovieListWeb(CharacterMovie characterMovie);*/
+    CharacterMovieListWeb toCharacterMovieListWeb(CharacterMovie characterMovie);
+
+    List<CharacterMovieListWeb> toCharacterMovieListWeb(List<CharacterMovie> characterMovies);
 
 }

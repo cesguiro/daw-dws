@@ -49,7 +49,7 @@ public class MovieRepositoryImpl implements MovieRepository {
                 //movieEntity.getCharacterEntities(connection, characterMovieDAO).forEach(CharacterMovieEntity -> CharacterMovieEntity.getActorEntity(connection, actorDAO));
                 //movieEntity.getCharacterEntities().forEach(CharacterEntity -> CharacterEntity.getActor(connection, actorDAO));
             }*/
-            return Optional.ofNullable(MovieMapper.mapper.toMovieWithDirectorAndActors(movieDAO.findById(id).get()));
+            return Optional.ofNullable(MovieMapper.mapper.toMovieWithDirectorAndCharacterMovies(movieDAO.findById(id).get()));
     }
 
     @Override

@@ -27,7 +27,7 @@ public interface MovieMapper {
 
     MovieListWeb toMovieListWeb(Movie movie);
 
-    //@Mapping(target = "characterMovies", expression = "java(mapCharacterMoviesToCharacterMovieListWeb(movie.getCharacterMovies()))")
+    @Mapping(target = "characterMovies", expression = "java(CharacterMovieMapper.mapper.toCharacterMovieListWeb(movie.getCharacterMovies()))")
     MovieDetailWeb toMovieDetailWeb(Movie movie);
 
     /*@Named("characterMoviesToCharacterMovieListWeb")
@@ -53,9 +53,9 @@ public interface MovieMapper {
     List<Movie> toMovieList(List<MovieEntity> movieEntities);
 
     @Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")
-    @Mapping(target = "characterMovies", ignore = true)
-    @Named("toMovieWithDirectorAndActors")
-    Movie toMovieWithDirectorAndActors(MovieEntity movieEntity);
+    @Mapping(target = "characterMovies", expression = "java(CharacterMovieMapper.mapper.toCharacterMovies(movieEntity.getCharacterMovieEntities()))")
+    @Named("toMovieWithDirectorAndCharacterMovies")
+    Movie toMovieWithDirectorAndCharacterMovies(MovieEntity movieEntity);
 
     /*@Named("characterEntitiesToCharacters")
     default List<CharacterMovie> mapCharacterMovieEntitiesToCharacterMovies(List<CharacterMovieEntity> characterMovieEntities) {

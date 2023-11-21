@@ -41,7 +41,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie find(int id) {
-        Movie movie = movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
+        return movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
 
         /*Director director = directorRepository.findByMovieId(id).orElse(null);
         movie.setDirector(director);
@@ -50,7 +50,6 @@ public class MovieServiceImpl implements MovieService {
 
         movie.setActors(actors);*/
 
-        return movie;
     }
 
     @Override

@@ -20,6 +20,7 @@ public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String title;
     private int year;
     private int runtime;
@@ -29,8 +30,17 @@ public class MovieEntity {
     private DirectorEntity directorEntity;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "movie_id")
+    @JoinColumn(name = "movie_id")
     private List<CharacterMovieEntity> characterMovieEntities;
+
+
+    /*@OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "actors_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
+    private List<CharacterMovieEntity> characterMovieEntities;*/
 
     /*@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
