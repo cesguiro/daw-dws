@@ -40,16 +40,16 @@ public interface MovieMapper {
 
 
     /*@Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")
-    @Mapping(target = "characterMovies", expression = "java(mapCharacterMovieEntitiesToCharacterMovies(movieEntity.getCharacterMovieEntities()))")*/
-    //@Mapping(target = "director", ignore = true)
+    @Mapping(target = "characterMovies", expression = "java(CharacterMovieMapper.mapper.toCharacterMovies(movieEntity.getCharacterMovieEntities()))")*/
     @Mapping(target = "director", ignore = true)
     @Mapping(target = "characterMovies", ignore = true)
-    @IterableMapping(qualifiedByName = "toMovie")
+    @Named("toMovie")
     Movie toMovie(MovieEntity movieEntity);
 
     @Mapping(target = "director", ignore = true)
     @Mapping(target = "characterMovies", ignore = true)
-    @Named("toMovie")
+    @IterableMapping(qualifiedByName = "toMovie")
+    @Named("toMovieList")
     List<Movie> toMovieList(List<MovieEntity> movieEntities);
 
     @Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")

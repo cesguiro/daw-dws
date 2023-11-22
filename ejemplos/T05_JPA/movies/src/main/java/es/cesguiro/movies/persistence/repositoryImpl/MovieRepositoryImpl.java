@@ -25,31 +25,29 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public List<Movie> getAll(Integer page, Integer pageSize) {
         List<MovieEntity> movieEntities;
-        //return movieDAO.findAll().stream().map(MovieMapper.mapper::toMovie).toList();
         if(page != null && page > 0) {
             Pageable pageable = PageRequest.of(page - 1, pageSize);
             movieEntities = movieDAO.findAll(pageable).stream().toList();
         } else {
             movieEntities = movieDAO.findAll();
-
         }
-        //return MovieMapper.mapper.toMovieList(movieDAO.findAll());
         return MovieMapper.mapper.toMovieList(movieEntities);
     }
 
     @Override
     public Optional<Movie> find(int id) {
-            //MovieEntity movieEntity = movieDAO.findById(id).get();
-            /*if(movieEntity != null) {
-                movieEntity.getDirectorEntity();
-                System.out.println(movieEntity.getDirectorEntity().getName());
-                System.out.println(movieEntity.getDirectorEntity().getBirthYear());
-                movieEntity.getActorEntities();
-                System.out.println(movieEntity.getActorEntities().get(1).getName());
-                //movieEntity.getCharacterEntities(connection, characterMovieDAO).forEach(CharacterMovieEntity -> CharacterMovieEntity.getActorEntity(connection, actorDAO));
-                //movieEntity.getCharacterEntities().forEach(CharacterEntity -> CharacterEntity.getActor(connection, actorDAO));
-            }*/
-            return Optional.ofNullable(MovieMapper.mapper.toMovieWithDirectorAndCharacterMovies(movieDAO.findById(id).get()));
+        /*MovieEntity movieEntity = movieDAO.findById(id).orElse(null);
+        if(movieEntity != null) {
+            //movieEntity.getDirectorEntity();
+            //movieEntity.getDirectorEntity().getName();
+        }*/
+        //return Optional.ofNullable(MovieMapper.mapper.toMovie(movieEntity));
+        MovieEntity movieEntity = movieDAO.findById(id).orElse(null);
+        if(movieEntity == null) {
+            return Optional.empty();
+        }
+        //return Optional.ofNullable(MovieMapper.mapper.toMovie(movieEntity));
+        return Optional.of(MovieMapper.mapper.toMovieWithDirectorAndCharacterMovies(movieEntity));
     }
 
     @Override

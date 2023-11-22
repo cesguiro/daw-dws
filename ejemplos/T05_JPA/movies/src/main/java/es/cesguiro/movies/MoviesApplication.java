@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "es.cesguiro.movies.persistence.dao")
+//@EnableJpaRepositories(basePackages = "es.cesguiro.movies.persistence.dao")
 public class MoviesApplication {
 
 	public static void main(String[] args) {
