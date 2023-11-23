@@ -15,7 +15,7 @@ public interface MovieService {
 
     long getTotalNumberOfRecords();
 
-    int create(Movie movie, int directorId, Map<Integer, String> characters);
+    int create(Movie movie);
 
     void update(Movie movie, int directorId, List<Integer> actorIds);
 }

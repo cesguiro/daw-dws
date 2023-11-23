@@ -58,14 +58,22 @@ public class MovieController {
         return Response.builder().data(movieDetailWeb).build();
     }
 
-    /*@ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Response create(@RequestBody MovieCreateWeb movieCreateWeb) {
-        int id = movieService.create(
+        /*int id = movieService.create(
                 MovieMapper.mapper.toMovie(movieCreateWeb),
                 movieCreateWeb.getDirectorId(),
                 movieCreateWeb.getCharacters()
+        );*/
+
+        Movie movie = MovieMapper.mapper.toMovie(movieCreateWeb);
+
+        int id = movieService.create(
+                MovieMapper.mapper.toMovie(movieCreateWeb)
         );
+
+
         MovieListWeb movieListWeb = new MovieListWeb();
         movieListWeb.setTitle(movieCreateWeb.getTitle());
         movieListWeb.setId(id);

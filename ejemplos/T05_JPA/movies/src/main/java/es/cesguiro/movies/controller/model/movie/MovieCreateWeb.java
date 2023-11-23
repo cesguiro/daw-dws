@@ -16,7 +16,8 @@ public class MovieCreateWeb {
     private String title;
     private int year;
     private int runtime;
-    private int directorId;
+    private Integer directorId;
     //private List<CharacterMovieCreateWeb> characterMovieCreateWebs;
-    private Map<Integer, String> characters;
+    //private Map<Integer, String> characters;
+    private List<CharacterMovieCreateWeb> characters;
 }

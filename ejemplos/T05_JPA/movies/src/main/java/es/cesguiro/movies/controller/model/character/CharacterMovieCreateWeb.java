@@ -10,5 +10,5 @@ import lombok.Setter;
 public class CharacterMovieCreateWeb {
 
     int actorId;
-    String[] characters;
+    String characters;
 }

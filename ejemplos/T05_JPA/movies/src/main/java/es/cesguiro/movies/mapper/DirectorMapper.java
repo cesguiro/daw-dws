@@ -19,6 +19,9 @@ public interface DirectorMapper {
 
     DirectorMapper mapper = Mappers.getMapper(DirectorMapper.class);
 
+    @Mapping(target = "id", source = "directorId")
+    Director toDirector(Integer directorId);
+
     Director toDirector(DirectorCreateWeb directorCreateWeb);
     Director toDirector(DirectorUpdateWeb directorUpdateWeb);
     DirectorDetailWeb toDirectorDetailWeb(Director director);

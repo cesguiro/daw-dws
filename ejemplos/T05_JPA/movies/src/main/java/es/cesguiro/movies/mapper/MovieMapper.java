@@ -1,5 +1,6 @@
 package es.cesguiro.movies.mapper;
 
+import es.cesguiro.movies.controller.model.character.CharacterMovieCreateWeb;
 import es.cesguiro.movies.controller.model.character.CharacterMovieListWeb;
 import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
@@ -30,15 +31,6 @@ public interface MovieMapper {
     @Mapping(target = "characterMovies", expression = "java(CharacterMovieMapper.mapper.toCharacterMovieListWeb(movie.getCharacterMovies()))")
     MovieDetailWeb toMovieDetailWeb(Movie movie);
 
-    /*@Named("characterMoviesToCharacterMovieListWeb")
-    default List<CharacterMovieListWeb> mapCharacterMoviesToCharacterMovieListWeb(List<CharacterMovie> characterMovies) {
-        return characterMovies.stream()
-                .map(CharacterMovieMapper.mapper::toCharacterMovieListWeb)
-                .toList();
-    }*/
-
-
-
     /*@Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieEntity.getDirectorEntity()))")
     @Mapping(target = "characterMovies", expression = "java(CharacterMovieMapper.mapper.toCharacterMovies(movieEntity.getCharacterMovieEntities()))")*/
     @Mapping(target = "director", ignore = true)
@@ -57,25 +49,24 @@ public interface MovieMapper {
     @Named("toMovieWithDirectorAndCharacterMovies")
     Movie toMovieWithDirectorAndCharacterMovies(MovieEntity movieEntity);
 
-    /*@Named("characterEntitiesToCharacters")
-    default List<CharacterMovie> mapCharacterMovieEntitiesToCharacterMovies(List<CharacterMovieEntity> characterMovieEntities) {
-        if(characterMovieEntities == null) {
-            return null;
-        }
-        return characterMovieEntities.stream()
-                .map(CharacterMovieMapper.mapper::toCharacterMovie)
-                .toList();
-    }
-
-    @Mapping(target = "director", ignore = true)
-    @Mapping(target = "characterMovies", ignore = true)
+    @Mapping(target = "director", expression = "java(DirectorMapper.mapper.toDirector(movieCreateWeb.getDirectorId()))")
+    @Mapping(target = "characterMovies", expression = "java(mapCharactersMoviesCreateWebsToCharacterMovies(movieCreateWeb.getCharacters()))")
     Movie toMovie(MovieCreateWeb movieCreateWeb);
 
 
-    MovieEntity toMovieEntity(Movie movie);
+    @Named("mapCharactersMoviesCreateWebsToCharacterMovies")
+    default List<CharacterMovie> mapCharactersMoviesCreateWebsToCharacterMovies(List<CharacterMovieCreateWeb> characterMovieCreateWebs) {
+        return characterMovieCreateWebs.stream()
+                .map(characterMovieCreateWeb -> CharacterMovieMapper.mapper.toCharacterMovie(
+                        characterMovieCreateWeb.getActorId(),
+                        characterMovieCreateWeb.getCharacters()))
+                .toList();
+    }
+
+    //MovieEntity toMovieEntity(Movie movie);
 
 
-    @Named("actorToActorIds")
+    /*@Named("actorToActorIds")
     default List<Integer> mapActorsToActorIds(List<Actor> actors) {
         return actors.stream()
                 .map(actor -> actor.getId())

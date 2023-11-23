@@ -4,6 +4,7 @@ import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.CharacterMovie;
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.entity.Movie;
+import es.cesguiro.movies.domain.repository.CharacterRepository;
 import es.cesguiro.movies.domain.service.MovieService;
 import es.cesguiro.movies.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.repository.ActorRepository;
@@ -58,16 +59,22 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public int create(Movie movie, int directorId, Map<Integer, String> characters) {
-        Director director = directorRepository.find(directorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + directorId));
-        List<Actor> actors = characters.keySet().stream()
-                .map(actorId -> actorRepository.find(actorId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + actorId))
-                )
-                .toList();
-        movie.setDirector(director);
-        List<CharacterMovie> characterMovies = new ArrayList<>();
+    public int create(Movie movie) {
+        /*Director director = directorRepository.find(movie.getDirector().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + movie.getDirector().getId()));*/
+        /*List<CharacterMovie> characterMovies = movie.getCharacterMovies().stream()
+                .map(characterMovie -> characterMovie.setActor(actorRepository.find(characterMovie.getActor().getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + characterMovie.getActor().getId()))
+                ))
+                .toList();*/
+        directorRepository.find(movie.getDirector().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + movie.getDirector().getId()));
+        movie.getCharacterMovies().forEach(characterMovie -> characterMovie.setActor(actorRepository
+                .find(characterMovie.getActor().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + characterMovie.getActor().getId()))));
+        //movie.setDirector(director);
+        //movie.setCharacterMovies(characterMovies);
+        //List<CharacterMovie> characterMovies = new ArrayList<>();
 
         return movieRepository.insert(movie);
     }

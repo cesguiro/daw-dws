@@ -1,5 +1,6 @@
 package es.cesguiro.movies.mapper;
 
+import es.cesguiro.movies.controller.model.character.CharacterMovieCreateWeb;
 import es.cesguiro.movies.controller.model.character.CharacterMovieListWeb;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.CharacterMovie;
@@ -19,6 +20,11 @@ import java.util.List;
 public interface CharacterMovieMapper {
 
     CharacterMovieMapper mapper = Mappers.getMapper(CharacterMovieMapper.class);
+
+    @Mapping(target = "id", source = "actorId")
+    CharacterMovie toCharacterMovie(int actorId, String characters);
+
+    //List<CharacterMovie> toCharacterMovies(List<CharacterMovieCreateWeb> characterMovieCreateWebs);
 
     @Mapping(target = "actor", expression = "java(ActorMapper.mapper.toActor(characterMovieEntity.getActorEntity()))")
     CharacterMovie toCharacterMovie(CharacterMovieEntity characterMovieEntity);
