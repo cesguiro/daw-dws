@@ -1,5 +1,6 @@
 package es.cesguiro.movies.domain.service.impl;
 
+import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.domain.entity.CharacterMovie;
 import es.cesguiro.movies.domain.entity.Director;
@@ -10,6 +11,7 @@ import es.cesguiro.movies.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.repository.ActorRepository;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
 import es.cesguiro.movies.domain.repository.MovieRepository;
+import es.cesguiro.movies.mapper.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,8 +69,16 @@ public class MovieServiceImpl implements MovieService {
                         .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + characterMovie.getActor().getId()))
                 ))
                 .toList();*/
-        directorRepository.find(movie.getDirector().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + movie.getDirector().getId()));
+        movie.setDirector(directorRepository.find(movie.getDirector().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + movie.getDirector().getId())));
+
+        /*int movieId = movieRepository.insert(movie);
+        for (CharacterMovie characterMovie: movie.getCharacterMovies()) {
+            characterMovie.setActor(actorRepository.find(characterMovie.getActor().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + characterMovie.getActor().getId()))
+            );
+            characterMovie.setMovieId(movieId);
+        }*/
         movie.getCharacterMovies().forEach(characterMovie -> characterMovie.setActor(actorRepository
                 .find(characterMovie.getActor().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + characterMovie.getActor().getId()))));
@@ -92,5 +102,10 @@ public class MovieServiceImpl implements MovieService {
         movie.setDirector(director);
         //movie.setActors(actors);
         movieRepository.update(movie);
+    }
+
+    @Override
+    public List<Movie> findByDirectorId(int directorId) {
+        return movieRepository.findByDirectorId(directorId);
     }
 }

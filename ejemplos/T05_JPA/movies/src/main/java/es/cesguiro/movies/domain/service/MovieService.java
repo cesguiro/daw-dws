@@ -1,5 +1,6 @@
 package es.cesguiro.movies.domain.service;
 
+import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Movie;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,6 @@ public interface MovieService {
     int create(Movie movie);
 
     void update(Movie movie, int directorId, List<Integer> actorIds);
+
+    List<Movie> findByDirectorId(int directorId);
 }

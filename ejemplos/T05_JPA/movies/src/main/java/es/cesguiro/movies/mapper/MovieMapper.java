@@ -28,6 +28,8 @@ public interface MovieMapper {
 
     MovieListWeb toMovieListWeb(Movie movie);
 
+    List<MovieListWeb> toMovieListWebs(List<Movie> movies);
+
     @Mapping(target = "characterMovies", expression = "java(CharacterMovieMapper.mapper.toCharacterMovieListWeb(movie.getCharacterMovies()))")
     MovieDetailWeb toMovieDetailWeb(Movie movie);
 
@@ -63,7 +65,8 @@ public interface MovieMapper {
                 .toList();
     }
 
-    //MovieEntity toMovieEntity(Movie movie);
+    @Mapping(target = "directorEntity", expression = "java(DirectorMapper.mapper.toDirectorEntity(movie.getDirector()))")
+    MovieEntity toMovieEntity(Movie movie);
 
 
     /*@Named("actorToActorIds")

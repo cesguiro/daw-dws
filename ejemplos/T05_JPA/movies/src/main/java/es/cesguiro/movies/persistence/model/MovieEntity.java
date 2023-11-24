@@ -33,21 +33,4 @@ public class MovieEntity {
     @JoinColumn(name = "movie_id")
     private List<CharacterMovieEntity> characterMovieEntities;
 
-
-    /*@OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "actors_movies",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id")
-    )
-    private List<CharacterMovieEntity> characterMovieEntities;*/
-
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "actors_movies",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id")
-    )
-    private List<ActorEntity> actorEntities;*/
-
 }
