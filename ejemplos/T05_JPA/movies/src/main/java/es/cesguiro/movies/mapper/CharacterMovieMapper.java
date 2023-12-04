@@ -43,6 +43,8 @@ public interface CharacterMovieMapper {
     @Mapping(target = "actorEntity", expression = "java(ActorMapper.mapper.toActorEntity(characterMovie.getActor()))")
     CharacterMovieEntity toCharacterMovieEntity(CharacterMovie characterMovie);
 
+    List<CharacterMovieEntity> toCharacterMovieEntities(List<CharacterMovie> characterMovies);
+
     /*@Named("actorEntityToActor")
     default Actor mapActorEntityToActor(ActorEntity actorEntity) {
         return ActorMapper.mapper.toActor(actorEntity);

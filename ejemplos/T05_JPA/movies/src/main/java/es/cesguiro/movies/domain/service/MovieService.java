@@ -1,7 +1,8 @@
 package es.cesguiro.movies.domain.service;
 
-import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 import es.cesguiro.movies.domain.entity.Movie;
+import es.cesguiro.movies.domain.repository.DirectorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,11 @@ public interface MovieService {
 
     long getTotalNumberOfRecords();
 
-    int create(Movie movie);
+    Movie create(Movie movie);
 
-    void update(Movie movie, int directorId, List<Integer> actorIds);
+    Movie update(Movie movie);
 
     List<Movie> findByDirectorId(int directorId);
+
+    void delete(int id);
 }

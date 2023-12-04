@@ -17,9 +17,11 @@ public interface MovieRepository {
 
     long getTotalNumberOfRecords();
 
-    int insert(Movie movie);
+    Movie insert(Movie movie);
 
-    void update(Movie movie);
+    Movie update(Movie movie);
 
     List<Movie> findByDirectorId(int directorId);
+
+    void delete(Movie movie);
 }

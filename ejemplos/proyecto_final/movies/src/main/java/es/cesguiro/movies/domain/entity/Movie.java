@@ -9,24 +9,23 @@ public class Movie {
     private int year;
     private int runtime;
     private Director director;
-    private List<Actor> actors;
+    private List<CharacterMovie> characterMovies;
 
     public Movie(){
-        //RowMapper
+
     }
 
-    public Movie(int id, String title, int year, int runTime) {
+    public Movie(int id, String title, int year, int runtime) {
         this.id = id;
         this.title = title;
         this.year = year;
-        this.runtime = runTime;
+        this.runtime = runtime;
     }
 
-    public Movie(String title, int year, int runTime) {
-        this.id = id;
+    public Movie(String title, int year, int runtime) {
         this.title = title;
         this.year = year;
-        this.runtime = runTime;
+        this.runtime = runtime;
     }
 
 
@@ -70,12 +69,12 @@ public class Movie {
         this.director = director;
     }
 
-    public List<Actor> getActors() {
-        return actors;
+    public List<CharacterMovie> getCharacterMovies() {
+        return characterMovies;
     }
 
-    public void setActors(List<Actor> actors) {
-        this.actors = actors;
+    public void setCharacterMovies(List<CharacterMovie> characterMovies) {
+        this.characterMovies = characterMovies;
     }
 
     @Override
@@ -83,10 +82,10 @@ public class Movie {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", runTime=" + runtime +
+                ", runtime=" + runtime +
                 ", year=" + year +
                 ", director=" + director +
-                ", actors=" + actors +
+                ", characters=" + characterMovies +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import es.cesguiro.movies.controller.model.movie.MovieCreateWeb;
 import es.cesguiro.movies.controller.model.movie.MovieDetailWeb;
 import es.cesguiro.movies.controller.model.movie.MovieListWeb;
 //import es.cesguiro.movies.controller.model.movie.MovieUpdateWeb;
+import es.cesguiro.movies.controller.model.movie.MovieUpdateWeb;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.mapper.MovieMapper;
 import es.cesguiro.movies.domain.service.MovieService;
@@ -24,11 +25,15 @@ public class MovieController {
 
     public static final String MOVIES = "/movies";
 
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
 
     @Value("${page.size}")
     private int PAGE_SIZE;
+
+    @Autowired
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
@@ -61,29 +66,25 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Response create(@RequestBody MovieCreateWeb movieCreateWeb) {
-        /*int id = movieService.create(
-                MovieMapper.mapper.toMovie(movieCreateWeb),
-                movieCreateWeb.getDirectorId(),
-                movieCreateWeb.getCharacters()
-        );*/
+        Movie movie = movieService.create(MovieMapper.mapper.toMovie(movieCreateWeb));
 
-        Movie movie = MovieMapper.mapper.toMovie(movieCreateWeb);
-
-        int id = movieService.create(
-                MovieMapper.mapper.toMovie(movieCreateWeb)
-        );
-
-
-        MovieListWeb movieListWeb = new MovieListWeb();
+        /*MovieListWeb movieListWeb = new MovieListWeb();
         movieListWeb.setTitle(movieCreateWeb.getTitle());
-        movieListWeb.setId(id);
-        return Response.builder().data(movieListWeb).build();
+        movieListWeb.setId(id);*/
+        return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movie)).build();
     }
 
-    /*@ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("{/id}")
-    public void update(@PathVariable("id") int id, @RequestBody MovieUpdateWeb movieUpdateWeb) {
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}")
+    public Response update(@PathVariable("id") int id, @RequestBody MovieUpdateWeb movieUpdateWeb) {
         movieUpdateWeb.setId(id);
-        movieService.update(MovieMapper.mapper.toMovie(movieUpdateWeb), movieUpdateWeb.getDirectorId(), movieUpdateWeb.getActorIds());
-    }*/
+        Movie movie = movieService.update(MovieMapper.mapper.toMovie(movieUpdateWeb));
+        return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movie)).build();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        movieService.delete(id);
+    }
 }
