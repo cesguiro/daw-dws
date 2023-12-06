@@ -1,6 +1,6 @@
 package es.cesguiro.movies.domain.entity;
 
-import es.cesguiro.movies.exception.ResourceNotFoundException;
+import es.cesguiro.movies.common.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,34 +1,31 @@
 package es.cesguiro.movies.domain.service;
 
-import es.cesguiro.movies.domain.entity.CharacterMovie;
-import es.cesguiro.movies.domain.entity.Movie;
-import es.cesguiro.movies.domain.repository.DirectorRepository;
-import es.cesguiro.movies.dto.MovieDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import es.cesguiro.movies.common.dto.CharacterMovieDto;
+import es.cesguiro.movies.common.dto.MovieDto;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 @Service
 public interface MovieService {
-    Stream<MovieDTO> getAll(Integer page, Integer pageSize);
-    Stream<MovieDTO> getAll();
+    Stream<MovieDto> getAll(Integer page, Integer pageSize);
+    Stream<MovieDto> getAll();
 
-    MovieDTO find(int id);
+    MovieDto find(int movieId);
 
     long getTotalNumberOfRecords();
 
-    Movie create(Movie movie);
+    MovieDto create(MovieDto movieDTO);
 
-    Movie update(Movie movie);
+    MovieDto update(MovieDto movieDTO);
 
-    List<Movie> findByDirectorId(int directorId);
+    Stream<MovieDto> findByDirectorId(int directorId);
 
-    void delete(int id);
+    void delete(int movieId);
 
-    Movie addCharacterMovie(int id, CharacterMovie characterMovie);
+    MovieDto addCharacterMovie(int movieId, CharacterMovieDto characterMovieDTO);
 
-    Movie updateCharacterMovie(int id, CharacterMovie characterMovie);
+    MovieDto updateCharacterMovie(int movieId, CharacterMovieDto characterMovieDTO);
+
+    void deleteCharacterMovie(int movieId, int characterMovieId);
 }

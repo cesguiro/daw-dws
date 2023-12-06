@@ -1,47 +1,58 @@
 package es.cesguiro.movies.domain.service.impl;
 
-import es.cesguiro.movies.domain.entity.Actor;
-import es.cesguiro.movies.domain.entity.CharacterMovie;
+import es.cesguiro.movies.common.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.entity.Movie;
+import es.cesguiro.movies.domain.mapper.MovieDomainMapper;
 import es.cesguiro.movies.domain.service.MovieService;
-import es.cesguiro.movies.dto.MovieDTO;
-import es.cesguiro.movies.exception.ResourceNotFoundException;
-import es.cesguiro.movies.domain.repository.ActorRepository;
-import es.cesguiro.movies.domain.repository.DirectorRepository;
+import es.cesguiro.movies.common.dto.CharacterMovieDto;
+import es.cesguiro.movies.common.dto.MovieDto;
 import es.cesguiro.movies.domain.repository.MovieRepository;
-import es.cesguiro.movies.mapper.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    @Autowired
-    private MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
 
-    @Autowired
+    /*@Autowired
     private DirectorRepository directorRepository;
 
     @Autowired
-    private ActorRepository actorRepository;
+    private ActorRepository actorRepository;*/
 
-    @Override
-    public Stream<MovieDTO> getAll(Integer page, Integer pageSize) {
-        return movieRepository.getAll(page, pageSize);
+    @Autowired
+    public MovieServiceImpl(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
     @Override
-    public Stream<MovieDTO> getAll() {
-        return  movieRepository.getAll(null, null);
+    public Stream<MovieDto> getAll(Integer page, Integer pageSize) {
+        return movieRepository
+                .getAll(page, pageSize)
+                .map(MovieDomainMapper.mapper::toMovieDto);
+    }
+
+    @Override
+    public Stream<MovieDto> getAll() {
+        return  movieRepository.getAll(null, null)
+                .map(MovieDomainMapper.mapper::toMovieDto);
     }
 
 
     @Override
-    public MovieDTO find(int id) {
-        return movieRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
+    public MovieDto find(int id) {
+        return MovieDomainMapper
+                .mapper
+                .toMovieDto(
+                        movieRepository
+                                .find(id)
+                                .orElseThrow(
+                                        () -> new ResourceNotFoundException("Movie not found with id: " + id)
+                                )
+                );
     }
 
     @Override
@@ -50,17 +61,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie create(Movie movie) {
-        movie.setDirector(directorRepository.find(movie.getDirector().getId())
+    public MovieDto create(MovieDto movieDTO) {
+        /*movie.setDirector(directorRepository.find(movie.getDirector().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Director not found with id: " + movie.getDirector().getId())));
         movie.getCharacterMovies().forEach(characterMovie -> characterMovie.setActor(actorRepository
                 .find(characterMovie.getActor().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Actor not found with id: " + characterMovie.getActor().getId()))));
-        return movieRepository.insert(movie);
+        return movieRepository.insert(movie);*/
+        return null;
     }
 
     @Override
-    public Movie update(Movie movie) {
+    public MovieDto update(MovieDto movieDTO) {
         /*Movie existingMovie = this.find(movie.getId());
         MovieMapper.mapper.updateMovieFromMovieUpdate(movie, existingMovie);
         return movieRepository.update(existingMovie);*/
@@ -68,8 +80,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findByDirectorId(int directorId) {
-        return movieRepository.findByDirectorId(directorId);
+    public Stream<MovieDto> findByDirectorId(int directorId) {
+        /*return movieRepository.findByDirectorId(directorId);*/
+        return null;
     }
 
     @Override
@@ -79,7 +92,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie addCharacterMovie(int id, CharacterMovie characterMovie) {
+    public MovieDto addCharacterMovie(int id, CharacterMovieDto characterMovieDTO) {
         /*Movie movie = this.find(id);
         Actor actor = actorRepository.find(characterMovie.getActor().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + characterMovie.getActor().getId()));
@@ -90,7 +103,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie updateCharacterMovie(int id, CharacterMovie characterMovie) {
+    public MovieDto updateCharacterMovie(int id, CharacterMovieDto characterMovieDTO) {
         /*Movie movie = this.find(id);
         Actor actor = actorRepository.find(characterMovie.getActor().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Actor no encontrado con id: " + characterMovie.getActor().getId()));
@@ -98,5 +111,9 @@ public class MovieServiceImpl implements MovieService {
         movie.updateCharacterMovie(characterMovie); //por si hay alguna validación
         return movieRepository.update(movie);*/
         return null;
+    }
+
+    @Override
+    public void deleteCharacterMovie(int movieId, int characterMovieId) {
     }
 }

@@ -1,10 +1,8 @@
 package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.domain.entity.Actor;
-import es.cesguiro.movies.domain.repository.ActorRepository;
-import es.cesguiro.movies.mapper.ActorMapper;
-import es.cesguiro.movies.persistence.dao.ActorDAO;
-import es.cesguiro.movies.persistence.model.ActorEntity;
+import es.cesguiro.movies.persistence.dao.impl.jpa.repository.ActorJpaRepository;
+import es.cesguiro.movies.persistence.dao.impl.jpa.entity.ActorJpaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ActorRepositoryImpl implements ActorRepository {
+public class ActorRepositoryImpl implements es.cesguiro.movies.domain.repository.ActorRepository {
 
     @Autowired
-    ActorDAO actorDAO;
+    ActorJpaRepository actorJpaRepository;
     @Override
     public int insert(Actor actor) {
         return 0;
@@ -23,11 +21,12 @@ public class ActorRepositoryImpl implements ActorRepository {
 
     @Override
     public Optional<Actor> find(int id) {
-        ActorEntity actorEntity = actorDAO.findById(id).orElse(null);
-        if(actorEntity == null) {
+        ActorJpaEntity actorJpaEntity = actorJpaRepository.findById(id).orElse(null);
+        if(actorJpaEntity == null) {
             return Optional.empty();
         }
-        return Optional.of(ActorMapper.mapper.toActor(actorEntity));
+        //return Optional.of(ActorMapper.mapper.toActor(actorJpaEntity));
+        return null;
     }
 
     @Override

@@ -2,7 +2,7 @@ package es.cesguiro.movies.domain.service.impl;
 
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.service.DirectorService;
-import es.cesguiro.movies.exception.ResourceNotFoundException;
+import es.cesguiro.movies.common.exception.ResourceNotFoundException;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class DirectorServiceImpl implements DirectorService {
 
+    final DirectorRepository directorRepository;
+
     @Autowired
-    DirectorRepository directorRepository;
+    public DirectorServiceImpl(DirectorRepository directorRepository) {
+        this.directorRepository = directorRepository;
+    }
 
     @Override
     public int create(Director director) {
