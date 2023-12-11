@@ -2,12 +2,13 @@ package es.cesguiro.movies.persistence.dao.impl.jpa.repository;
 
 import es.cesguiro.movies.persistence.dao.impl.jpa.entity.MovieJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Repository
+@Component
 public interface MovieJpaRepository extends JpaRepository<MovieJpaEntity, Integer> {
+    List<MovieJpaEntity> findByDirectorJpaEntityId(int directorId);
 
     /*@Modifying
     @Query(value = "INSERT INTO actors_movies (movie_id, actor_id, characters) VALUES (:movieId, :actorId, :characters)", nativeQuery = true)

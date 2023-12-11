@@ -12,4 +12,6 @@ public interface DirectorJpaMapper {
 
 
     DirectorDto toDirectorDto(DirectorJpaEntity directorJpaEntity);
+
+    DirectorJpaEntity toDirectorEntity(DirectorDto directorDto);
 }

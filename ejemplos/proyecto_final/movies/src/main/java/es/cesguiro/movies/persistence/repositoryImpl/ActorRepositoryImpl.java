@@ -1,46 +1,68 @@
 package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.domain.entity.Actor;
-import es.cesguiro.movies.persistence.dao.impl.jpa.repository.ActorJpaRepository;
-import es.cesguiro.movies.persistence.dao.impl.jpa.entity.ActorJpaEntity;
+import es.cesguiro.movies.persistence.dao.ActorDao;
+import es.cesguiro.movies.persistence.mapper.ActorPersistenceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class ActorRepositoryImpl implements es.cesguiro.movies.domain.repository.ActorRepository {
 
+    @Qualifier("ActorDaoJpaImpl")
+    final ActorDao actorDao;
+
     @Autowired
-    ActorJpaRepository actorJpaRepository;
-    @Override
-    public int insert(Actor actor) {
-        return 0;
+    public ActorRepositoryImpl(ActorDao actorDao) {
+        this.actorDao = actorDao;
     }
 
     @Override
     public Optional<Actor> find(int id) {
-        ActorJpaEntity actorJpaEntity = actorJpaRepository.findById(id).orElse(null);
-        if(actorJpaEntity == null) {
-            return Optional.empty();
-        }
-        //return Optional.of(ActorMapper.mapper.toActor(actorJpaEntity));
-        return null;
+        return Optional.ofNullable(
+                ActorPersistenceMapper
+                        .mapper
+                        .toActor(
+                                actorDao
+                                        .find(id)
+                                        .orElse(null)
+                        )
+        );
     }
 
     @Override
-    public List<Actor> findByMovieId(int movieId) {
-        return null;
+    public Actor save(Actor actor) {
+        return ActorPersistenceMapper
+                .mapper
+                .toActor(
+                        actorDao
+                                .save(
+                                        ActorPersistenceMapper
+                                                .mapper
+                                                .toActorDto(actor)
+                                )
+                );
     }
 
     @Override
-    public void update(Actor actor) {
-
+    public void delete(Actor actor) {
+        actorDao.delete(
+                ActorPersistenceMapper
+                        .mapper
+                        .toActorDto(actor)
+        );
     }
 
-    @Override
-    public void delete(int id) {
-
-    }
+    /*@Override
+    public Actor findByCharacterId(int characterId) {
+        return ActorPersistenceMapper
+                .mapper
+                .toActor(
+                        actorDao
+                                .findByCharacterId(characterId)
+                );
+    }*/
 }

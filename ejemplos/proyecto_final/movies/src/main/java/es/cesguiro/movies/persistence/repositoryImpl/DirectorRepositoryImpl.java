@@ -2,8 +2,10 @@ package es.cesguiro.movies.persistence.repositoryImpl;
 
 import es.cesguiro.movies.domain.entity.Director;
 import es.cesguiro.movies.domain.repository.DirectorRepository;
-import es.cesguiro.movies.persistence.dao.impl.jpa.repository.DirectorJpaRepository;
+import es.cesguiro.movies.persistence.dao.DirectorDao;
+import es.cesguiro.movies.persistence.mapper.DirectorPersistenceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -11,36 +13,47 @@ import java.util.Optional;
 @Repository
 public class DirectorRepositoryImpl implements DirectorRepository {
 
+    @Qualifier("DirectorDaoJpaImpl")
+    final DirectorDao directorDao;
+
     @Autowired
-    DirectorJpaRepository directorJpaRepository;
-    @Override
-    public int insert(Director director) {
-        return 0;
+    public DirectorRepositoryImpl(DirectorDao directorDao) {
+        this.directorDao = directorDao;
     }
 
     @Override
     public Optional<Director> find(int id) {
-        /*DirectorJpaEntity directorJpaEntity = directorJpaRepository.findById(id).orElse(null);
-        if(directorJpaEntity == null) {
-            return Optional.empty();
-        }
-        //return Optional.ofNullable(MovieMapper.mapper.toMovie(movieEntity));
-        return Optional.of(DirectorMapper.mapper.toDirector(directorJpaEntity));*/
-        return null;
+        return Optional.ofNullable(
+                DirectorPersistenceMapper
+                        .mapper
+                        .toDirector(
+                                directorDao
+                                        .find(id)
+                                        .orElse(null)
+                        )
+        );
     }
 
     @Override
-    public void update(Director director) {
-
+    public Director save(Director director) {
+        return DirectorPersistenceMapper
+                .mapper
+                .toDirector(
+                        directorDao
+                                .save(
+                                        DirectorPersistenceMapper
+                                                .mapper
+                                                .toDirectorDto(director)
+                                )
+                );
     }
 
     @Override
-    public void delete(int id) {
-
-    }
-
-    @Override
-    public Optional<Director> findByMovieId(int movieId) {
-        return Optional.empty();
+    public void delete(Director director) {
+        directorDao.delete(
+                DirectorPersistenceMapper
+                        .mapper
+                        .toDirectorDto(director)
+        );
     }
 }

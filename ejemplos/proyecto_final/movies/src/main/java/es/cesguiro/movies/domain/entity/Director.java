@@ -4,8 +4,7 @@ public class Director {
 
     private int id;
     private String name;
-    private int birthYear;
-    //deathYear es de tipo Integer para poder pasarle nulos
+    private Integer birthYear;
     private Integer deathYear;
 
     public Director(){
@@ -41,11 +40,11 @@ public class Director {
         this.name = name;
     }
 
-    public int getBirthYear() {
+    public Integer getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(int birthYear) {
+    public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
     }
 

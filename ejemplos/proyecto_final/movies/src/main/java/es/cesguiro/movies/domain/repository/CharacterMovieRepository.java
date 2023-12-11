@@ -5,7 +5,7 @@ import es.cesguiro.movies.domain.entity.CharacterMovie;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface CharacterRepository {
+public interface CharacterMovieRepository {
 
     CharacterMovie find(int id);
 

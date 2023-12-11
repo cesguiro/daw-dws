@@ -3,6 +3,7 @@ package es.cesguiro.movies.presentation.apiController.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.cesguiro.movies.common.ApplicationProperties;
+import es.cesguiro.movies.presentation.apiController.DirectorApiController;
 import es.cesguiro.movies.presentation.apiController.MovieApiController;
 import lombok.Data;
 
@@ -22,6 +23,6 @@ public class DirectorResponse {
 
     public void setId(int id) {
         this.id = id;
-        this.link = String.join("/", ApplicationProperties.getUrl() + MovieApiController.MOVIES, Integer.toString(this.id)) ;
+        this.link = String.join("/", ApplicationProperties.getUrl() + DirectorApiController.DIRECTORS, Integer.toString(this.id)) ;
     }
 }

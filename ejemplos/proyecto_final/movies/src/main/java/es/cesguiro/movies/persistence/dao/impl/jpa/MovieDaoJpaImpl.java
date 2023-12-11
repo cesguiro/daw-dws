@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 @Component
 public class MovieDaoJpaImpl implements MovieDao {
 
-    MovieJpaRepository movieJpaRepository;
+    final MovieJpaRepository movieJpaRepository;
 
     @Autowired
     public MovieDaoJpaImpl(MovieJpaRepository movieJpaRepository) {
@@ -42,7 +42,7 @@ public class MovieDaoJpaImpl implements MovieDao {
         return Optional.ofNullable(
                 MovieJpaMapper
                         .mapper
-                        .toMovieDTOWithDirectorAndCharacterMovies(
+                        .toMovieDtoWithDirectorAndCharacterMovies(
                                 movieJpaRepository
                                         .findById(id)
                                         .orElse(null)
@@ -53,5 +53,37 @@ public class MovieDaoJpaImpl implements MovieDao {
     @Override
     public long count() {
         return movieJpaRepository.count();
+    }
+
+    @Override
+    public MovieDto save(MovieDto movieDto) {
+        return MovieJpaMapper
+                .mapper
+                .toMovieDtoWithDirectorAndCharacterMovies(
+                        movieJpaRepository
+                                .save(
+                                        MovieJpaMapper
+                                                .mapper
+                                                .toMovieJpaEntity(movieDto)
+                                )
+                );
+    }
+
+    @Override
+    public void delete(MovieDto movieDto) {
+        movieJpaRepository
+                .delete(
+                        MovieJpaMapper
+                                .mapper
+                                .toMovieJpaEntity(movieDto)
+                );
+    }
+
+    @Override
+    public Stream<MovieDto> findByDirectorId(int directorId) {
+        return movieJpaRepository
+                .findByDirectorJpaEntityId(directorId)
+                .stream()
+                .map(MovieJpaMapper.mapper::toMovieDto);
     }
 }

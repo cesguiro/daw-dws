@@ -11,4 +11,6 @@ public interface DirectorPersistenceMapper {
     DirectorPersistenceMapper mapper = Mappers.getMapper(DirectorPersistenceMapper.class);
 
     Director toDirector(DirectorDto directorDto);
+
+    DirectorDto toDirectorDto(Director director);
 }

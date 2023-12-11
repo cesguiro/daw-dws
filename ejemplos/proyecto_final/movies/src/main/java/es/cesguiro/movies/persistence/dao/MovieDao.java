@@ -9,9 +9,15 @@ import java.util.stream.Stream;
 @Component
 public interface MovieDao {
 
-    public Stream<MovieDto> getAll(Integer page, Integer pageSize);
+    Stream<MovieDto> getAll(Integer page, Integer pageSize);
 
-    public Optional<MovieDto> find(int id);
+    Optional<MovieDto> find(int id);
 
     long count();
+
+    MovieDto save(MovieDto movieDto);
+
+    void delete(MovieDto movieDto);
+
+    Stream<MovieDto> findByDirectorId(int directorId);
 }

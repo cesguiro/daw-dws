@@ -27,5 +27,5 @@ public interface MovieService {
 
     MovieDto updateCharacterMovie(int movieId, CharacterMovieDto characterMovieDTO);
 
-    void deleteCharacterMovie(int movieId, int characterMovieId);
+    MovieDto deleteCharacterMovie(int movieId, int characterMovieId);
 }

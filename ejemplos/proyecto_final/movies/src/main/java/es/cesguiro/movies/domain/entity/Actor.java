@@ -1,11 +1,12 @@
 package es.cesguiro.movies.domain.entity;
 
+import java.util.Objects;
+
 public class Actor {
 
     private int id;
     private String name;
-    private int birthYear;
-    //deathYear es de tipo Integer para poder pasarle nulos
+    private Integer birthYear;
     private Integer deathYear;
 
     public Actor(){
@@ -41,11 +42,11 @@ public class Actor {
         this.name = name;
     }
 
-    public int getBirthYear() {
+    public Integer getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(int birthYear) {
+    public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
     }
 
@@ -68,4 +69,16 @@ public class Actor {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Actor actor = (Actor) o;
+        return id == actor.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

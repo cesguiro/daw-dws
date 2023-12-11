@@ -11,7 +11,9 @@ public class CharacterMovieDto {
     Integer id;
 
     @NonNull
-    ActorDto actorDTO;
+    ActorDto actorDto;
+
     @NonNull
     String characters;
+
 }

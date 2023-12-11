@@ -7,4 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ActorJpaRepository extends JpaRepository<ActorJpaEntity, Integer> {
 
+
+    /*@Query("SELECT a.actorJpaEntity FROM CharacterMovieJpaEntity a WHERE a.id = ?1")
+    ActorJpaEntity findByCharacterId(int characterId);*/
 }

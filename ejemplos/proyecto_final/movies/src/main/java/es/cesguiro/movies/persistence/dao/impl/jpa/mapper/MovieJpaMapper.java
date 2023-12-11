@@ -6,8 +6,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Optional;
-
 @Mapper(componentModel = "spring")
 public interface MovieJpaMapper {
 
@@ -18,8 +16,11 @@ public interface MovieJpaMapper {
     MovieDto toMovieDto(MovieJpaEntity movieJpaEntity);
 
     @Mapping(target = "directorDto", expression = "java(DirectorJpaMapper.mapper.toDirectorDto(movieJpaEntity.getDirectorJpaEntity()))")
-    @Mapping(target = "characterMovieDTOList", expression = "java(CharacterMovieJpaMapper.mapper.toCharacterMovieDTOList(movieEntity.getCharacterMovieEntities()))")
-    MovieDto toMovieDTOWithDirectorAndCharacterMovies(MovieJpaEntity movieJpaEntity);
+    @Mapping(target = "characterMovieDtoList", expression = "java(CharacterMovieJpaMapper.mapper.toCharacterMovieDtoList(movieJpaEntity.getCharacterMovieJpaEntityList()))")
+    MovieDto toMovieDtoWithDirectorAndCharacterMovies(MovieJpaEntity movieJpaEntity);
 
+    @Mapping(target = "directorJpaEntity", source = "directorDto")
+    @Mapping(target = "characterMovieJpaEntityList", expression = "java(CharacterMovieJpaMapper.mapper.toCharacterMovieJpaEntityList(movieDto.getCharacterMovieDtoList()))")
+    MovieJpaEntity toMovieJpaEntity(MovieDto movieDto);
 
 }

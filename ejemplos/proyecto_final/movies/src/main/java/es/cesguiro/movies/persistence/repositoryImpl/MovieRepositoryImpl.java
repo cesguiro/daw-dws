@@ -1,26 +1,22 @@
 package es.cesguiro.movies.persistence.repositoryImpl;
 
-import es.cesguiro.movies.common.dto.MovieDto;
 import es.cesguiro.movies.domain.entity.Movie;
 import es.cesguiro.movies.domain.repository.MovieRepository;
 import es.cesguiro.movies.persistence.dao.MovieDao;
 import es.cesguiro.movies.persistence.mapper.MoviePersistenceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@RestController
+@Repository
 public class MovieRepositoryImpl implements MovieRepository {
 
     @Qualifier("MovieDaoJpaImpl")
     private final MovieDao movieDao;
-    //private final CharacterMovieJpaRepository characterMovieJpaRepository;
 
     @Autowired
     public MovieRepositoryImpl(MovieDao movieDao) {
@@ -53,30 +49,34 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     @Transactional
-    public Movie insert(Movie movie) {
-        /*MovieEntity movieEntity = movieJpaRepository.save(MovieMapper.mapper.toMovieEntity(movie));
-        return MovieMapper.mapper.toMovieWithDirectorAndCharacterMovies(movieEntity);*/
-        return null;
+    public Movie save(Movie movie) {
+        return MoviePersistenceMapper
+                .mapper
+                .toMovieWithDirectorAndCharacters(
+                        movieDao
+                                .save(
+                                        MoviePersistenceMapper
+                                                .mapper
+                                                .toMovieDto(movie)
+                                )
+                );
     }
 
     @Override
-    @Transactional
-    public Movie update(Movie movie) {
-        /*MovieEntity movieEntity = movieJpaRepository.save(MovieMapper.mapper.toMovieEntity(movie));
-        return MovieMapper.mapper.toMovieWithDirectorAndCharacterMovies(movieEntity);*/
-        return null;
-    }
-
-    @Override
-    public List<Movie> findByDirectorId(int directorId) {
-        //return MovieMapper.mapper.toMovieList(movieJpaRepository.findByDirectorEntityId(directorId));
-        return null;
+    public Stream<Movie> findByDirectorId(int directorId) {
+        return movieDao
+                .findByDirectorId(directorId)
+                .map(movieDto -> MoviePersistenceMapper.mapper.toMovie(movieDto));
     }
 
     @Override
     @Transactional
     public void delete(Movie movie) {
-        //movieJpaRepository.delete(MovieMapper.mapper.toMovieEntity(movie));
+        movieDao.delete(
+                MoviePersistenceMapper
+                        .mapper
+                        .toMovieDto(movie)
+        );
     }
 
 }

@@ -24,10 +24,8 @@ public class MovieJpaEntity {
     @JoinColumn(name = "director_id")
     private DirectorJpaEntity directorJpaEntity;
 
-    //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "movie_id")
-    private List<CharacterMovieJpaEntity> characterMovieEntities;
+    private List<CharacterMovieJpaEntity> characterMovieJpaEntityList;
 
 }

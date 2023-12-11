@@ -13,8 +13,8 @@ public class ActorJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column(name = "birth_year")
-    private int birthYear;
+    @Column(name = "birth_year", nullable = true)
+    private Integer birthYear;
     @Column(name = "death_year", nullable = true)
     private Integer deathYear;
 }

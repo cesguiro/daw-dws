@@ -1,10 +1,13 @@
 package es.cesguiro.movies.domain.service;
 
-import es.cesguiro.movies.domain.entity.Actor;
+import es.cesguiro.movies.common.dto.ActorDto;
 
 public interface ActorService {
-    int create(Actor actor);
-    void update(Actor actor);
+
+    ActorDto find(int id);
+
+    ActorDto create(ActorDto actorDto);
+    ActorDto update(ActorDto actorDto);
 
     void delete(int id);
 }
