@@ -1,4 +1,4 @@
-package es.cesguiro.movies.db.exception;
+package es.cesguiro.movies.persistence.dao.db.exception;
 
 import java.util.Objects;
 

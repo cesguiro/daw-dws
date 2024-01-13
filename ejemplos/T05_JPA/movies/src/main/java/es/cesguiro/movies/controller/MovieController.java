@@ -68,9 +68,6 @@ public class MovieController {
     public Response create(@RequestBody MovieCreateWeb movieCreateWeb) {
         Movie movie = movieService.create(MovieMapper.mapper.toMovie(movieCreateWeb));
 
-        /*MovieListWeb movieListWeb = new MovieListWeb();
-        movieListWeb.setTitle(movieCreateWeb.getTitle());
-        movieListWeb.setId(id);*/
         return Response.builder().data(MovieMapper.mapper.toMovieDetailWeb(movie)).build();
     }
 

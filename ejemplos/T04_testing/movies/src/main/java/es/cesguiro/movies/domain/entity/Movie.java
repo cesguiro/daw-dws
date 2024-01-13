@@ -11,6 +11,10 @@ public class Movie {
     private Director director;
     private List<Actor> actors;
 
+    public Movie(){
+
+    }
+
     public Movie(int id, String title, int year, int runTime) {
         this.id = id;
         this.title = title;

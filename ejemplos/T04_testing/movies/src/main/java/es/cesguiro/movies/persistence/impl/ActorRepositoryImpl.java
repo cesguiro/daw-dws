@@ -1,7 +1,7 @@
 package es.cesguiro.movies.persistence.impl;
 
-import es.cesguiro.movies.db.DBUtil;
-import es.cesguiro.movies.db.exception.DBConnectionException;
+import es.cesguiro.movies.persistence.dao.db.DBUtil;
+import es.cesguiro.movies.persistence.dao.db.exception.DBConnectionException;
 import es.cesguiro.movies.domain.entity.Actor;
 import es.cesguiro.movies.persistence.ActorRepository;
 import es.cesguiro.movies.persistence.exception.SQLStatmentException;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ActorRepositoryImpl implements ActorRepository {
     @Override
     public void insert(Actor actor) {
-        final String SQL = "INSERT INTO actors (name, birthYear, deathYear) VALUES (?, ?, ?)";
+        /*final String SQL = "INSERT INTO actors (name, birthYear, deathYear) VALUES (?, ?, ?)";
         List<Object> params = new ArrayList<>();
         params.add(actor.getName());
         params.add(actor.getBirthYear());
@@ -30,7 +30,7 @@ public class ActorRepositoryImpl implements ActorRepository {
             throw new SQLStatmentException("SQL: " + SQL);
         } catch (Exception e) {
             System.out.println("Exception: " + e);
-        }
+        }*/
     }
 
 }

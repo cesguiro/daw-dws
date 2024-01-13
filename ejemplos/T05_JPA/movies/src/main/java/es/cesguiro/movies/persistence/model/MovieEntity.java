@@ -31,9 +31,7 @@ public class MovieEntity {
     @JoinColumn(name = "director_id")
     private DirectorEntity directorEntity;
 
-    //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "movie_id")
     private List<CharacterMovieEntity> characterMovieEntities;
 
