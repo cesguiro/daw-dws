@@ -2,6 +2,7 @@ package es.cesguiro.movies.persistence.dao.db;
 
 import es.cesguiro.movies.persistence.dao.db.exception.DBConnectionException;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +11,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Component
-public class Datasource {
+public class DBConnection {
 
-    private static Datasource datasource;
+    @Getter
     private Connection connection;
 
     @Value("${spring.datasource.url}")
@@ -21,6 +22,11 @@ public class Datasource {
     private String username;
     @Value("${spring.datasource.password}")
     private String password;
+
+    //Si queremos hacer Singleton
+    /*private DBConnection(){
+
+    }*/
 
     @PostConstruct //Esta anotación sirve para asegurarnos que el método se ejecuta después de que las propiedades hayan sido inyectadas
     private void initilize() {
@@ -47,18 +53,4 @@ public class Datasource {
         );
     }
 
-    /*public static Datasource getInstance() {
-        if(datasource == null) {
-            datasource = new Datasource();
-        }
-        return datasource;
-    }*/
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 }

@@ -9,13 +9,11 @@ import java.util.List;
 @Component
 public class DBUtil {
 
-    private final Datasource datasource;
-
-
+    private final DBConnection dBConnection;
 
     @Autowired
-    public DBUtil(Datasource datasource) {
-       this.datasource = datasource;
+    public DBUtil(DBConnection dBConnection) {
+       this.dBConnection = dBConnection;
    }
 
     public ResultSet select(String sql, List<Object> values) {
@@ -54,7 +52,7 @@ public class DBUtil {
     }
 
     private PreparedStatement setParameters(String sql, List<Object> values){
-        Connection connection = datasource.getConnection();
+        Connection connection = dBConnection.getConnection();
         try {
             PreparedStatement preparedStatement =  connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             if(values != null) {
