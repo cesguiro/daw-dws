@@ -9,17 +9,17 @@ import java.util.List;
 @Component
 public class DBUtil {
 
-   private Datasource datasource;
+    private final Datasource datasource;
 
 
-   public DBUtil() {
-       //datasource = Datasource.getInstance();
-       datasource = new Datasource();
+
+    @Autowired
+    public DBUtil(Datasource datasource) {
+       this.datasource = datasource;
    }
 
     public ResultSet select(String sql, List<Object> values) {
-        //try (Connection connection = Datasource.getInstance().getConnection()){
-        try (Connection connection = datasource.getConnection()){
+        try {
             PreparedStatement preparedStatement = setParameters(sql, values);
             return preparedStatement.executeQuery();            
         } catch (Exception e) {
@@ -28,8 +28,6 @@ public class DBUtil {
     }
 
     public int insert(String sql, List<Object> values) {
-        //Connection connection = Datasource.getInstance().getConnection();
-        Connection connection = datasource.getConnection();
         try {
             PreparedStatement preparedStatement = setParameters(sql, values);
             preparedStatement.executeUpdate();
@@ -46,8 +44,6 @@ public class DBUtil {
 
 
     public int update(String sql, List<Object> values) {
-        //Connection connection = Datasource.getInstance().getConnection();
-        Connection connection = datasource.getConnection();
         try {
             PreparedStatement preparedStatement = setParameters(sql, values);
             int numRows = preparedStatement.executeUpdate();
@@ -58,7 +54,6 @@ public class DBUtil {
     }
 
     private PreparedStatement setParameters(String sql, List<Object> values){
-        //Connection connection = Datasource.getInstance().getConnection();
         Connection connection = datasource.getConnection();
         try {
             PreparedStatement preparedStatement =  connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -75,8 +70,6 @@ public class DBUtil {
     }
 
     public int delete(String sql, List<Object> values) {
-        //Connection connection = Datasource.getInstance().getConnection();
-        Connection connection = datasource.getConnection();
         try {
             PreparedStatement preparedStatement = setParameters(sql, values);
             return preparedStatement.executeUpdate();
@@ -84,5 +77,6 @@ public class DBUtil {
             throw new RuntimeException(e);
         }
     }
+
 
 }

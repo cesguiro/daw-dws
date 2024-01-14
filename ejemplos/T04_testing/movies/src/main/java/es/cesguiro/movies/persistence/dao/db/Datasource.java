@@ -15,39 +15,27 @@ public class Datasource {
     private static Datasource datasource;
     private Connection connection;
 
-    @Value("${app.datasource.url}")
+    @Value("${spring.datasource.url}")
     private String urlConnection;
-    @Value("${app.datasource.username}")
+    @Value("${spring.datasource.username}")
     private String username;
-    @Value("${app.datasource.password}")
+    @Value("${spring.datasource.password}")
     private String password;
 
     @PostConstruct //Esta anotación sirve para asegurarnos que el método se ejecuta después de que las propiedades hayan sido inyectadas
     private void initilize() {
+        System.out.println("Estableciendo conexión....");
         try {
             connection = DriverManager.getConnection(
                     urlConnection,
                     username,
                     password
             );
+            System.out.println("Conexión establecida con la bbdd con los parámetros: ");
+            System.out.println(this.getParameters());
         } catch (SQLException e) {
             throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
         }
-        System.out.println("URL: " + urlConnection);
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-    }
-
-    public Datasource(){
-        /*try {
-            connection = DriverManager.getConnection(
-                    urlConnection,
-                    username,
-                    password
-            );
-        } catch (SQLException e) {
-            throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
-        }*/
     }
 
 
@@ -57,11 +45,6 @@ public class Datasource {
                 username,
                 password
         );
-        /*return String.format("url: %s\nUser: %s\nPassword: %s\n",
-                "jdbc:mariadb://localhost:3306/imdb",
-                "root",
-                "root"
-        );*/
     }
 
     /*public static Datasource getInstance() {
@@ -72,15 +55,6 @@ public class Datasource {
     }*/
 
     public Connection getConnection() {
-        /*try {
-            connection = DriverManager.getConnection(
-                    urlConnection,
-                    username,
-                    password
-            );
-        } catch (SQLException e) {
-            throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
-        }*/
         return connection;
     }
 

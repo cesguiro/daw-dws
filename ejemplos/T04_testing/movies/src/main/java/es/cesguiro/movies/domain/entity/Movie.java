@@ -7,7 +7,7 @@ public class Movie {
     private int id;
     private String title;
     private int year;
-    private int runTime;
+    private int runtime;
     private Director director;
     private List<Actor> actors;
 
@@ -15,18 +15,18 @@ public class Movie {
 
     }
 
-    public Movie(int id, String title, int year, int runTime) {
+    public Movie(int id, String title, int year, int runtime) {
         this.id = id;
         this.title = title;
         this.year = year;
-        this.runTime = runTime;
+        this.runtime = runtime;
     }
 
-    public Movie(String title, int year, int runTime) {
+    public Movie(String title, int year, int runtime) {
         this.id = id;
         this.title = title;
         this.year = year;
-        this.runTime = runTime;
+        this.runtime = runtime;
     }
 
 
@@ -54,12 +54,12 @@ public class Movie {
         this.year = year;
     }
 
-    public int getRunTime() {
-        return runTime;
+    public int getRuntime() {
+        return runtime;
     }
 
-    public void setRunTime(int runTime) {
-        this.runTime = runTime;
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
     public Director getDirector() {
@@ -83,7 +83,7 @@ public class Movie {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", runTime=" + runTime +
+                ", runTime=" + runtime +
                 ", year=" + year +
                 ", director=" + director +
                 ", actors=" + actors +
